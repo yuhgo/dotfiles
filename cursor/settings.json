@@ -1,0 +1,666 @@
+{
+	"workbench.iconTheme": "material-icon-theme",
+	"editor.suggestSelection": "first",
+	"workbench.editorAssociations": {
+		"*.ipynb": "jupyter-notebook"
+	},
+	// カラーピッカー
+	"editor.colorDecorators": true,
+	"explorer.confirmDragAndDrop": false,
+	"explorer.confirmDelete": false,
+	"[cpp]": {
+		// "editor.defaultFormatter": "xaver.clang-format"
+	},
+	// "editor.fontLigatures": null,
+	"notebook.cellToolbarLocation": {
+		"default": "right",
+		"jupyter-notebook": "left"
+	},
+	"vsicons.dontShowNewVersionMessage": true,
+	"editor.formatOnSave": true,
+	// Enable per-language basis by scoping for Prettier
+	"editor.defaultFormatter": "biomejs.biome",
+	// JavaScript関連
+	"[javascript]": {
+		"editor.tabSize": 2,
+		"editor.rulers": [80],
+		"editor.insertSpaces": true,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[javascriptreact]": {
+		"editor.tabSize": 2,
+		"editor.rulers": [80],
+		"editor.insertSpaces": true,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[json]": {
+		"editor.formatOnSave": true,
+		"editor.rulers": [80]
+	},
+	// TypeScript の場合は以下も
+	"[typescript]": {
+		"editor.tabSize": 2,
+		"editor.rulers": [80],
+		"editor.insertSpaces": true,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescriptreact]": {
+		"editor.tabSize": 2,
+		"editor.rulers": [80],
+		"editor.insertSpaces": true,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[html]": {
+		"editor.tabSize": 2,
+		"editor.rulers": [80],
+		"editor.insertSpaces": true,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[css]": {
+		"editor.tabSize": 2,
+		"editor.rulers": [80],
+		"editor.insertSpaces": true,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[scss]": {
+		"editor.tabSize": 2,
+		"editor.rulers": [80]
+	},
+	// GO関連
+	"[go]": {
+		"editor.tabSize": 4,
+		"editor.insertSpaces": false,
+		"editor.formatOnSave": true,
+		"editor.formatOnPaste": false,
+		"editor.formatOnType": false,
+		"editor.defaultFormatter": "golang.go"
+	},
+	// Flutter関連
+	"[dart]": {
+		"editor.formatOnSave": true,
+		"editor.formatOnType": true,
+		"editor.rulers": [80],
+		"editor.selectionHighlight": false,
+		"editor.suggest.snippetsPreventQuickSuggestions": false,
+		"editor.suggestSelection": "first",
+		"editor.tabCompletion": "onlySnippets",
+		"editor.wordBasedSuggestions": "off",
+		"editor.defaultFormatter": "Dart-Code.dart-code",
+		"editor.formatOnPaste": true
+	},
+	"editor.formatOnType": true,
+	"terminal.integrated.profiles.linux": {
+		"bash": {
+			"path": "bash",
+			"icon": "terminal-bash"
+		},
+		"zsh": {
+			"path": "zsh"
+		},
+		"fish": {
+			"path": "fish"
+		},
+		"tmux": {
+			"path": "tmux",
+			"icon": "terminal-tmux"
+		},
+		"pwsh": {
+			"path": "pwsh",
+			"icon": "terminal-powershell"
+		}
+	},
+	"emmet.includeLanguages": {
+		"django-html": "html"
+	},
+	"[django-html]": {
+		"editor.tabSize": 4,
+		"editor.formatOnSave": false
+		// "editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"html.format.wrapLineLength": 140,
+	"[makefile]": {
+		"editor.insertSpaces": false
+	},
+	"files.trimTrailingWhitespace": true, // 末尾の空白を自動削除
+	"files.insertFinalNewline": true,
+	// vim 設定
+	"vim.useSystemClipboard": true, // OS のクリップボードと同期
+	"vim.foldfix": true, // 折りたたみ箇所を開かないように変更
+	"vim.highlightedyank.enable": true,
+	"vim.highlightedyank.color": "rgba(100, 170, 240, 0.8)",
+	"vim.highlightedyank.duration": 250,
+	"vim.insertModeKeyBindings": [
+		{
+			"before": ["j", "j"],
+			"after": ["<Esc>"]
+		}
+	],
+	"vim.normalModeKeyBindings": [
+		// カーソル移動
+		{
+			"before": ["J"],
+			"after": ["5", "j"]
+		},
+		{
+			"before": ["K"],
+			"after": ["5", "k"]
+		},
+		{
+			"before": ["L"],
+			"after": ["$"]
+		},
+		{
+			"before": ["H"],
+			"after": ["^"]
+		}
+	],
+	"vim.visualModeKeyBindingsNonRecursive": [
+		{
+			"before": [">"],
+			"after": [">", "g", "v"]
+		},
+		{
+			"before": ["<"],
+			"after": ["<", "g", "v"]
+		},
+		// カーソル移動
+		{
+			"before": ["J"],
+			"after": ["5", "j"]
+		},
+		{
+			"before": ["K"],
+			"after": ["5", "k"]
+		}
+	],
+	// モード表示を有効にする設定
+	"vim.showmodename": true,
+	// オプション：モード表示の位置を左に設定
+	"vim.statusBarPosition": "left",
+	// 検索にマッチした箇所をハイライト
+	"vim.hlsearch": true,
+	"editor.minimap.size": "fit",
+	"editor.fontWeight": 450,
+	"editor.fontFamily": "JetBrains Mono, HackGenNerd",
+	"editor.inlayHints.fontFamily": "JetBrains Mono, HackGenNerd",
+	"scm.inputFontFamily": "JetBrains Mono, HackGenNerd",
+	"editor.codeLensFontFamily": "JetBrains Mono, HackGenNerd",
+	"javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+	"typescript.format.insertSpaceBeforeFunctionParenthesis": true,
+	"javascript.format.enable": false,
+	"eslint.enable": true,
+	"eslint.validate": [
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact"
+	],
+	"editor.tabSize": 2,
+	// Prettierのフォーマット設定
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
+	},
+	"debug.console.fontFamily": "JetBrains Mono, HackGenNerd",
+	"scm.inputFontSize": 13,
+	"terminal.integrated.fontWeight": "normal",
+	"settingsSync.ignoredExtensions": [],
+	"editor.quickSuggestionsDelay": 1,
+	"remote.SSH.remotePlatform": {
+		"Test-EC2": "linux"
+	},
+	"workbench.startupEditor": "none",
+	"files.exclude": {
+		"": true,
+		"**/.git": false
+	},
+	"extensions.autoUpdate": "onlyEnabledExtensions",
+	"prettier.requireConfig": true,
+	// ファイルツリー
+	"workbench.tree.indent": 22,
+	"workbench.tree.renderIndentGuides": "always",
+	"workbench.colorCustomizations": {
+		"editorBracketHighlight.foreground1": "#FFD700",
+		"editorBracketHighlight.foreground2": "#1E90FF",
+		"editorBracketHighlight.foreground3": "#DDA0DD",
+		"editorBracketHighlight.foreground4": "#3CB371",
+		"editorBracketHighlight.foreground5": "#FF5F5F",
+		"editorBracketHighlight.unexpectedBracket.foreground": "#FF5F5F"
+	},
+	// Custom file nesting
+	// "explorer.fileNesting.enabled": true,
+	// "explorer.fileNesting.expand": true,
+	// "explorer.fileNesting.patterns": {
+	//   ".gitignore": ".gitattributes, .gitmodules, .gitmessage, .mailmap, .git-blame*",
+	//  // "package.json": "knip.json, .browserslist*, .circleci*, .commitlint*, .cz-config.js, .czrc, .dlint.json, .dprint.json, .editorconfig, .eslint*, .firebase*, .flowconfig, .github*, .gitlab*, .gitpod*, .huskyrc*, .jslint*, .lintstagedrc*, .markdownlint*, .node-version, .nodemon*, .npm*, .nvmrc, .pm2*, .pnp.*, .pnpm*, .prettier*, .releaserc*, .sentry*, .stackblitz*, .styleci*, .stylelint*, .tazerc*, .textlint*, .tool-versions, .travis*, .versionrc*, .vscode*, .watchman*, .xo-config*, .yamllint*, .yarnrc*, Procfile, apollo.config.*, appveyor*, azure-pipelines*, bower.json, build.config.*, commitlint*, crowdin*, dangerfile*, dlint.json, dprint.json, eslint*, firebase.json, grunt*, gulp*, jenkins*, lerna*, lint-staged*, nest-cli.*, netlify*, nodemon*, npm-shrinkwrap.json, nx.*, package-lock.json, package.nls*.json, phpcs.xml, pm2.*, pnpm*, prettier*, pullapprove*, pyrightconfig.json, release-tasks.sh, renovate*, rollup.config.*, stylelint*, tslint*, tsup.config.*, turbo*, typedoc*, unlighthouse*, vercel*, vetur.config.*, webpack*, workspace.json, xo.config.*, yarn*",
+	//   "readme*": "authors, backers*, changelog*, citation*, code_of_conduct*, codeowners, contributing*, contributors, copying, credits, governance.md, history.md, license*, maintainers, readme*, security.md, sponsors*",
+	//   "next.config.*": "*.env, .babelrc*, .codecov, .cssnanorc*, .env.*, .envrc, .htmlnanorc*, .lighthouserc.*, .mocha*, .postcssrc*, .terserrc*, api-extractor.json, ava.config.*, babel.config.*, contentlayer.config.*, cssnano.config.*, cypress.*, env.d.ts, formkit.config.*, formulate.config.*, histoire.config.*, htmlnanorc.*, jasmine.*, jest.config.*, jsconfig.*, karma*, lighthouserc.*, next-env.d.ts, playwright.config.*, postcss.config.*, puppeteer.config.*, svgo.config.*, tailwind.config.*, tsconfig.*, tsdoc.*, uno.config.*, unocss.config.*, vitest.config.*, webpack.config.*, windi.config.*, tier-style.js"
+	// },
+	// アノテーションコメント
+	"todo-tree.general.tags": [
+		"CHANGED",
+		"FIXME",
+		"NOTE",
+		"REVIEW",
+		"TODO",
+		"WARNING"
+	],
+	"todo-tree.highlights.defaultHighlight": {
+		"icon": "checklist",
+		"type": "text",
+		"fontWeight": "normal",
+		"iconColour": "#2C7CFF"
+	},
+	"todo-tree.highlights.customHighlight": {
+		"CHANGED": {
+			"foreground": "#FFFFFF",
+			"background": "#E54F6D"
+		},
+		"FIXME": {
+			"foreground": "#FFFFFF",
+			"background": "#2986FF"
+		},
+		"NOTE": {
+			"foreground": "#FFFFFF",
+			"background": "#3A3A3A"
+		},
+		"REVIEW": {
+			"foreground": "#FFFFFF",
+			"background": "#FF00FF"
+		},
+		"TODO": {
+			"foreground": "#FFFFFF",
+			"background": "#319200"
+		},
+		"WARNING": {
+			"foreground": "#000000",
+			"background": "#FFBF00"
+		}
+	},
+	"better-comments.tags": [
+		{
+			"tag": "CHANGED",
+			"strikethrough": false,
+			"backgroundColor": "transparent",
+			"foregroundColor": "#FFFFFF"
+			// "color": "#EA7FA5"
+		},
+		{
+			"tag": "FIXME",
+			"strikethrough": false,
+			"backgroundColor": "transparent",
+			"foregroundColor": "#FFFFFF"
+			// "color": "#2986FF"
+		},
+		{
+			"tag": "NOTE",
+			"strikethrough": false,
+			"backgroundColor": "transparent",
+			"foregroundColor": "#FFFFFF"
+			// "color": "#C0C0C0"
+		},
+		{
+			"tag": "REVIEW",
+			"strikethrough": false,
+			"backgroundColor": "transparent",
+			"foregroundColor": "#FFFFFF"
+			// "color": "#2C7CFF"
+		},
+		{
+			"tag": "TODO",
+			"strikethrough": false,
+			"backgroundColor": "transparent",
+			"foregroundColor": "#FFFFFF"
+			// "color": "#FF5F17"
+		},
+		{
+			"tag": "WARNING",
+			"strikethrough": false,
+			"backgroundColor": "transparent",
+			"foregroundColor": "#FFFFFF",
+			"color": "F8C630"
+		}
+	],
+	"todohighlight.isEnable": true,
+	// bracket-pair-colorizerの設定
+	// ペアのカッコ同士を先で繋いてくれる設定
+	"editor.bracketPairColorization.enabled": true,
+	"editor.guides.bracketPairs": true,
+	"editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+	// "workbench.colorCustomizations": {
+	// 	"editorBracketHighlight.foreground1": "#FFD700",
+	// 	"editorBracketHighlight.foreground2": "#1E90FF",
+	// 	"editorBracketHighlight.foreground3": "#DDA0DD",
+	// 	"editorBracketHighlight.foreground4": "#3CB371",
+	// 	"editorBracketHighlight.foreground5": "#FF5F5F",
+	// 	"editorBracketHighlight.unexpectedBracket.foreground": "#FF5F5F",
+
+	// },
+	// indent rainbow
+	// Using the light mode
+	"indentRainbow.indicatorStyle": "light",
+	// we use a simple 1 pixel wide line
+	"indentRainbow.lightIndicatorStyleLineWidth": 1,
+	// the same colors as above but more visible
+	"indentRainbow.colors": [
+		"rgba(255,255,64,0.3)",
+		"rgba(127,255,127,0.3)",
+		"rgba(255,127,255,0.3)",
+		"rgba(79,236,236,0.3)"
+	],
+	"editor.hover.delay": 1000,
+	"workbench.sash.hoverDelay": 500,
+	"terminal.integrated.fontSize": 15,
+	"diffEditor.wordWrap": "on",
+	"files.trimFinalNewlines": true,
+	"terminal.integrated.cursorStyle": "line",
+	"terminal.integrated.enableMultiLinePasteWarning": false,
+	// 時計
+	"terminal.integrated.defaultProfile.windows": "Git Bash",
+	"html.format.indentInnerHtml": true,
+	"editor.inlineSuggest.enabled": true,
+	"git.autofetch": true,
+	"editor.lineNumbers": "on",
+	"git.confirmSync": false,
+	"terminal.integrated.env.osx": {
+		"FIG_NEW_SESSION": "1"
+	},
+	"editor.accessibilitySupport": "off",
+	"vim.handleKeys": {
+		"<C-u>": true,
+		"<C-d>": true,
+		"<C-w": false,
+		"<C-f>": false,
+		"<C-s>": false,
+		"<C-z>": false,
+		"<C-a>": false
+	},
+	"yaml.customTags": [
+		"!And",
+		"!And sequence",
+		"!If",
+		"!If sequence",
+		"!Not",
+		"!Not sequence",
+		"!Equals",
+		"!Equals sequence",
+		"!Or",
+		"!Or sequence",
+		"!FindInMap",
+		"!FindInMap sequence",
+		"!Base64",
+		"!Join",
+		"!Join sequence",
+		"!Cidr",
+		"!Ref",
+		"!Sub",
+		"!Sub sequence",
+		"!GetAtt",
+		"!GetAZs",
+		"!ImportValue",
+		"!ImportValue sequence",
+		"!Select",
+		"!Select sequence",
+		"!Split",
+		"!Split sequence"
+	],
+	"github.copilot.enable": {
+		"*": true,
+		"plaintext": "true",
+		"markdown": "true",
+		"scminput": false,
+		"yaml": "true"
+	},
+	"githubPullRequests.pullBranch": "never",
+	"workbench.editor.wrapTabs": true,
+	"typescript.implementationsCodeLens.enabled": true,
+	"javascript.referencesCodeLens.enabled": true,
+	"javascript.referencesCodeLens.showOnAllFunctions": true,
+	"typescript.referencesCodeLens.enabled": true,
+	"typescript.referencesCodeLens.showOnAllFunctions": true,
+	"vim.commandLineModeKeyBindings": [],
+	"explorer.compactFolders": false,
+	"editor.unicodeHighlight.nonBasicASCII": false,
+	"redhat.telemetry.enabled": true,
+	"editor.inlineSuggest.showToolbar": "always",
+	"playwright.showTrace": false,
+	"playwright.reuseBrowser": false,
+	"workbench.editor.empty.hint": "hidden",
+	"diffEditor.ignoreTrimWhitespace": false,
+	"github.copilot.chat.localeOverride": "ja",
+	"workbench.editor.customLabels.patterns": {
+		// Next.js App Routerのファイル名をわかりやすく
+		"**/app/**/page.tsx": "${dirname} - Page",
+		"**/app/**/layout.tsx": "${dirname} - Layout",
+		"**/app/**/action.tsx": "${dirname} - Action",
+		"**/app/**/loading.tsx": "${dirname} - Loading",
+		"**/app/**/error.tsx": "${dirname} - Error",
+		"**/app/**/default.tsx": "${dirname} - Default",
+		"**/app/**/modal.tsx": "${dirname} - Modal",
+		// "**/app/**/_component/**/*.tsx": "${dirname(1)}/${dirname(0)}/${filename} - Comp",
+		"**/app/**/_component/**/*.tsx": "${filename}.${extname} - Comp",
+		"**/app/**/_lib/**/*.ts": "${dirname(0)}/${filename}.${extname} - Lib",
+		"**/app/**/_lib/**/*.tsx": "${dirname(0)}/${filename}.${extname} - Lib",
+		// index.tsxファイルがわかりやすく
+		"**/src/**/index.tsx": "${dirname(1)}/${dirname(0)} - index",
+		"**/src/**/*.tsx": "${dirname(0)} - ${filename}.${extname}",
+		"**/src/**/*.ts": "${dirname(0)} - ${filename}.${extname}"
+	},
+	"prisma.showPrismaDataPlatformNotification": false,
+	"github.copilot.editor.enableAutoCompletions": true,
+	"scm.showOutgoingChanges": "never",
+	"cSpell.userWords": [
+		"Achivements",
+		"actp",
+		"Adminv",
+		"Aloalo",
+		"appatore",
+		"appli",
+		"applicaiton",
+		"appspot",
+		"appstore",
+		"AUTOMOUSE",
+		"backoffice",
+		"balnce",
+		"bunx",
+		"burrata",
+		"Catppuccin",
+		"ccid",
+		"ccids",
+		"cenkalti",
+		"clsx",
+		"cmdk",
+		"Codegen",
+		"colour",
+		"corporateuser",
+		"Creditcard",
+		"cudr",
+		"cudrs",
+		"cuids",
+		"CUST",
+		"daisyui",
+		"datasource",
+		"datetime",
+		"Deca",
+		"delivey",
+		"dllist",
+		"doapp",
+		"drizzleokit",
+		"Embla",
+		"endcomment",
+		"endfor",
+		"endschema",
+		"Enitity",
+		"envconfig",
+		"faild",
+		"Fastify",
+		"fileutils",
+		"firebaseapp",
+		"firebaseauth",
+		"foldfix",
+		"forloop",
+		"freeword",
+		"gerr",
+		"gocyclo",
+		"godoor",
+		"googleapi",
+		"googleplay",
+		"gorm",
+		"graphcache",
+		"Healthcheck",
+		"highlightedyank",
+		"Hono",
+		"hookform",
+		"Hrefs",
+		"Idpayment",
+		"ilike",
+		"infralog",
+		"Infras",
+		"intcc",
+		"inversify",
+		"isbot",
+		"itsmonavi",
+		"Kaku",
+		"Koremite",
+		"Lexend",
+		"linecap",
+		"linejoin",
+		"LSTEP",
+		"lucide",
+		"luggag",
+		"mantine",
+		"maxs",
+		"misconceptiond",
+		"Mondial",
+		"mypage",
+		"navi",
+		"nerdfonts",
+		"NEXTAUTH",
+		"nextjs",
+		"Notfication",
+		"Noto",
+		"nuqs",
+		"occured",
+		"ONETOUCH",
+		"openapi",
+		"otherlink",
+		"parag",
+		"paymentcharge",
+		"Pipeable",
+		"printarea",
+		"Qiita",
+		"radash",
+		"rcnt",
+		"rctx",
+		"relance",
+		"Retryable",
+		"rfcc",
+		"rollup",
+		"Segoe",
+		"sendgrid",
+		"shadcn",
+		"signup",
+		"sonner",
+		"stylesheet",
+		"Subscpay",
+		"supabase",
+		"tabler",
+		"tailwindcss",
+		"Tamachi",
+		"tanstack",
+		"tcnt",
+		"textsms",
+		"thum",
+		"tidx",
+		"tinyint",
+		"titlebar",
+		"todos",
+		"towadamania",
+		"Turbopack",
+		"Turborepo",
+		"typegen",
+		"typeorm",
+		"unixepoch",
+		"unoptimized",
+		"urql",
+		"Usecase",
+		"usehooks",
+		"useremployee",
+		"userpoint",
+		"vaul",
+		"vercel",
+		"wezterm",
+		"Windi",
+		"workstyle",
+		"xdark",
+		"xlight",
+		"xmedium",
+		"Yamamoto",
+		"yamamotoyugo",
+		"yuhgo",
+		"Zenn",
+		"zodios"
+	],
+	"github.copilot.preferredAccount": "yuhgo",
+	"workbench.colorTheme": "Default Dark Modern", // "vitest.vitestPackagePath": "package.json",
+	"workbench.activityBar.orientation": "horizontal",
+	"diffEditor.maxComputationTime": 0,
+	"makefile.configureOnOpen": false,
+	"liveServer.settings.donotShowInfoMsg": true,
+	"cline.chromeExecutablePath": "/Applications/Arc.app/Contents/MacOS/Arc",
+	"roo-cline.allowedCommands": [
+		"npm test",
+		"npm install",
+		"tsc",
+		"git log",
+		"git diff",
+		"git show",
+		"yarn",
+		"pnpm",
+		"bun"
+	],
+	"cursorStats.usageAlertThresholds": [10, 30, 50, 75, 90],
+	"cursor.composer.shouldChimeAfterChatFinishes": true,
+	"update.releaseTrack": "prerelease",
+	"go.toolsManagement.autoUpdate": true,
+	"chat.editor.fontFamily": "UDEV Gothic, HackGenNerd",
+	"terminal.integrated.fontFamily": "JetBrains Mono, HackGenNerd",
+	"editor.inlineSuggest.fontFamily": "JetBrains Mono, HackGenNerd",
+	"diffEditor.codeLens": true,
+	"workbench.panel.defaultLocation": "right",
+	// "vitest.vitestPackagePath": "package.json",
+	// "vitest.debugExclude": [
+	//   "<node_internals>/**",
+	//   "**/node_modules/**"
+	// ],
+	// ターミナル複数起動設定
+	"terminals.terminals": [
+		{
+			"name": "Terminal 1",
+			"description": "First terminal",
+			"open": true
+		},
+		{
+			"name": "Terminal 2",
+			"description": "Second terminal",
+			"open": true
+		}
+	],
+	"[dockercompose]": {
+		"editor.insertSpaces": true,
+		"editor.tabSize": 2,
+		"editor.autoIndent": "advanced",
+		"editor.defaultFormatter": "redhat.vscode-yaml"
+	},
+	"[github-actions-workflow]": {
+		"editor.defaultFormatter": "redhat.vscode-yaml"
+	},
+	"editor.wordWrap": "on",
+	"cursor.composer.usageSummaryDisplay": "always",
+	"C_Cpp.intelliSenseEngine": "disabled"
+}

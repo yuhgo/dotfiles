@@ -1,0 +1,7 @@
+# ローカル固有設定
+*.local
+*.private
+
+# OS生成ファイル
+.DS_Store
+
