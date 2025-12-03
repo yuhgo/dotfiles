@@ -11,4 +11,3 @@
 ### Cursor
 
 ln -s $(pwd)/cursor/settings.json ~/Library/Application\ Support/Cursor/User/settings.json
-
