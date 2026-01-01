@@ -506,6 +506,7 @@
 		"forloop",
 		"freeword",
 		"gerr",
+		"ghostty",
 		"gocyclo",
 		"godoor",
 		"googleapi",
@@ -607,7 +608,7 @@
 		"zodios"
 	],
 	"github.copilot.preferredAccount": "yuhgo",
-	"workbench.colorTheme": "Default Dark Modern", // "vitest.vitestPackagePath": "package.json",
+	"workbench.colorTheme": "Claude Dark", // "vitest.vitestPackagePath": "package.json",
 	"workbench.activityBar.orientation": "horizontal",
 	"diffEditor.maxComputationTime": 0,
 	"makefile.configureOnOpen": false,
@@ -663,5 +664,6 @@
 	"editor.wordWrap": "on",
 	"cursor.composer.usageSummaryDisplay": "always",
 	"C_Cpp.intelliSenseEngine": "disabled",
-	"workbench.editor.enablePreview": false
+	"workbench.editor.enablePreview": false,
+	"claudeCode.preferredLocation": "panel"
 }

@@ -1,0 +1,39 @@
+# テーマ変更
+theme = Kanagawa Wave
+
+# フォント変更
+font-family = "BIZ UDGothic Bold"
+
+
+# フォントサイズ変更
+font-size = 17
+
+# 背景透過
+background-opacity = 0.8
+
+# 背景ぼかし（macOS）
+background-blur = 20
+
+# アクティブでない分割ペインを暗くする
+unfocused-split-opacity = 0.6
+
+# カーソルの透過度
+cursor-opacity = 0.6
+
+# macOS タイトルバーのスタイル（タブにする）
+macos-titlebar-style = tabs
+
+# フォントの線を太く
+font-thicken
+
+# ウィンドウ状態を保存する
+window-save-state = always
+
+# ウィンドウ余白
+window-padding-x = 6
+window-padding-y = 6
+
+# 上下左右の余白を自動でバランス良く調整
+window-padding-balance
+# keybind = shift+enter=text:\x1b\r
+keybind = shift+enter=text:\n
