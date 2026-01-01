@@ -1,0 +1,6 @@
+{
+	".CodeMirror.vim-mode.insert-mode textarea": {
+		"escape": "vim:exit-insert-mode",
+		"j j": "vim:exit-insert-mode"
+	}
+}
