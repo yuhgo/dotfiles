@@ -4,4 +4,16 @@
 
 # OS生成ファイル
 .DS_Store
+
+# claude関連
 !CLAUDE.md
+.mcp.json
+debug*
+statsig*
+projects*
+todos*
+file-history*
+shell-snapshots*
+history.jsonl
+settings.json
+stats-cache.json

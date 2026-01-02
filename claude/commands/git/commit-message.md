@@ -81,7 +81,7 @@ Conventional Commits と同様に、必要に応じて `<Prefix>(scope):` の形
 フッターは指示がある時以外は**不要**
 
 - Refs/Closes: 関連IssueやPRを `Refs: #123` / `Closes: #123` で明記。
-- BREAKING CHANGE: 後方互換を壊す変更がある場合は内容を明示（あるいは Prefix に `!` を付ける `fix!: ...` 記法を併用）。
+- BREAKING CHANGE: 後方互換を壊す変更がある場合は内容を明示（あるいは `fix!:` のように Prefix に ! を付加する記法も併用可）。
 
 ## 例
 
