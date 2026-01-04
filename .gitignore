@@ -17,3 +17,4 @@ shell-snapshots*
 history.jsonl
 settings.json
 stats-cache.json
+ide*
