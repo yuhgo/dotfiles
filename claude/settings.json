@@ -1,7 +1,8 @@
 {
 	"env": {
 		"CLAUDE_CODE_ENABLE_TELEMETRY": "1",
-		"OTEL_METRICS_EXPORTER": "otlp"
+		"OTEL_METRICS_EXPORTER": "otlp",
+		"ENABLE_TOOL_SEARCH": "true"
 	},
 	"permissions": {
 		"allow": [
