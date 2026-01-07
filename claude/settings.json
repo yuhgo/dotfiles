@@ -77,6 +77,18 @@
 		"defaultMode": "acceptEdits"
 	},
 	"hooks": {
+		"PreToolUse": [
+			{
+				"matcher": "ExitPlanMode",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "cursor \"$(ls -t ~/.claude/plans/*.md | head -1)\"",
+						"timeout": 5
+					}
+				]
+			}
+		],
 		"Notification": [
 			{
 				"matcher": "",
@@ -93,5 +105,6 @@
 		"type": "command",
 		"command": "bash ~/.claude/statusline-git.sh",
 		"padding": 0
-	}
+	},
+	"alwaysThinkingEnabled": false
 }
