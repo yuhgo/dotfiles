@@ -37,3 +37,24 @@ window-padding-y = 6
 window-padding-balance
 # keybind = shift+enter=text:\x1b\r
 keybind = shift+enter=text:\n
+
+## キーバインド
+# 画面分割（新規ペイン作成）
+keybind = alt+shift+h=new_split:left
+keybind = alt+shift+l=new_split:right
+keybind = alt+shift+k=new_split:up
+keybind = alt+shift+j=new_split:down
+
+# ペイン間移動
+keybind = alt+h=goto_split:left
+keybind = alt+l=goto_split:right
+keybind = alt+k=goto_split:top
+keybind = alt+j=goto_split:bottom
+
+# --- Macネイティブな挙動 ---
+# タイトルバーを透明にしてスッキリさせる
+macos-titlebar-style = transparent
+# フルスクリーン時にMac標準の挙動にする
+macos-window-shadow = true
+# 入力中はマウスカーソルを隠す
+mouse-hide-while-typing = true
