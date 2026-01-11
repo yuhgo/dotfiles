@@ -1,13 +1,12 @@
 {
-  "permissions": {
-    "allow": [
-      "mcp__inkdrop__list-notebooks",
-      "mcp__inkdrop__search-notes",
-      "mcp__inkdrop__read-note"
-    ]
-  },
-  "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": [
-    "inkdrop"
-  ]
+	"permissions": {
+		"allow": [
+			"mcp__inkdrop__list-notebooks",
+			"mcp__inkdrop__search-notes",
+			"mcp__inkdrop__read-note",
+			"Bash(brew upgrade:*)"
+		]
+	},
+	"enableAllProjectMcpServers": true,
+	"enabledMcpjsonServers": ["inkdrop"]
 }

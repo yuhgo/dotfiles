@@ -18,3 +18,5 @@ history.jsonl
 settings.json
 stats-cache.json
 ide*
+paste-cache
+cache
