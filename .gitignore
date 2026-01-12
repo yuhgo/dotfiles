@@ -20,3 +20,4 @@ stats-cache.json
 ide*
 paste-cache
 cache
+/claude/plans

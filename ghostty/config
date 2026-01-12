@@ -17,6 +17,9 @@ background-blur = 20
 # アクティブでない分割ペインを暗くする
 unfocused-split-opacity = 0.6
 
+# ペイン境界線の色（オレンジ）
+split-divider-color = #ff9500
+
 # カーソルの透過度
 cursor-opacity = 0.6
 
