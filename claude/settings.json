@@ -47,7 +47,27 @@
 			"WebFetch(domain:superclaude.netlify.app)",
 			"Bash(python3 -m pip:*)",
 			"Read(//usr/local/**)",
-			"Read(//Users/yamamotoyugo/.cache/uv/archive-v0/z8fPVKX6YwrHndM_ZCB5e/lib/python3.13/site-packages/superclaude-4.1.4.dist-info/**)"
+			"Read(//Users/yamamotoyugo/.cache/uv/archive-v0/z8fPVKX6YwrHndM_ZCB5e/lib/python3.13/site-packages/superclaude-4.1.4.dist-info/**)",
+			"mcp__obsidian-vault__list_directory",
+			"mcp__obsidian-vault__read_file",
+			"mcp__google-calendar__get-current-time",
+			"mcp__google-calendar__list-calendars",
+			"mcp__google-calendar__manage-accounts",
+			"mcp__google-calendar__list-events",
+			"mcp__obsidian-vault__write_file",
+			"WebFetch(domain:zenn.dev)",
+			"Bash(xargs:*)",
+			"mcp__obsidian-vault__search_files",
+			"mcp__obsidian-vault__read_multiple_files",
+			"mcp__obsidian-vault__create_directory",
+			"mcp__obsidian-vault__edit_file",
+			"Bash(git mv:*)",
+			"mcp__obsidian-vault__get_file_info",
+			"WebFetch(domain:zellij.dev)",
+			"Bash(cargo install:*)",
+			"Bash(brew install:*)",
+			"Bash(zellij --version:*)",
+			"Bash(brew upgrade:*)"
 		],
 		"deny": [
 			"Bash(sudo:*)",
@@ -107,5 +127,7 @@
 		"padding": 0
 	},
 	"language": "Think in English, interact with the user in Japanese. 日本語の回答は小学生の少年に優しく教えるお兄さんのように柔らかくわかりやすい内容で回答して",
-	"alwaysThinkingEnabled": false
+	"alwaysThinkingEnabled": false,
+	"autoUpdatesChannel": "latest",
+	"plansDirectory": "./docs/plans"
 }
