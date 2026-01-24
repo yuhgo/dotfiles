@@ -1,5 +1,5 @@
 ---
-description: "Upgrade Claude Code via Homebrew Cask"
+description: "Homebrew CaskでClaude Codeをアップグレードする"
 ---
 
 ## 概要

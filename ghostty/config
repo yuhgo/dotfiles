@@ -1,9 +1,9 @@
 # テーマ変更
 theme = Kanagawa Wave
 
-# フォント変更
-font-family = "BIZ UDGothic Bold"
-
+# フォント変更（英語用 + 日本語フォールバック）
+font-family = "JetBrains Mono"
+font-family = "HackGen"
 
 # フォントサイズ変更
 font-size = 17
