@@ -21,3 +21,5 @@ ide*
 paste-cache
 cache
 /claude/plans
+/claude/tasks
+/claude/telemetry
