@@ -97,18 +97,6 @@
 		"defaultMode": "acceptEdits"
 	},
 	"hooks": {
-		"PreToolUse": [
-			{
-				"matcher": "ExitPlanMode",
-				"hooks": [
-					{
-						"type": "command",
-						"command": "cursor \"$(ls -t ~/.claude/plans/*.md | head -1)\"",
-						"timeout": 5
-					}
-				]
-			}
-		],
 		"Notification": [
 			{
 				"matcher": "",
@@ -129,5 +117,6 @@
 	"language": "Think in English, interact with the user in Japanese. 日本語の回答は小学生の少年に優しく教えるお兄さんのように柔らかくわかりやすい内容で回答して",
 	"alwaysThinkingEnabled": false,
 	"autoUpdatesChannel": "latest",
-	"plansDirectory": "./docs/plans"
+	"plansDirectory": "./docs/plan",
+	"model": "opus"
 }
