@@ -2,32 +2,26 @@
 description: "Homebrew CaskでClaude Codeをアップグレードする"
 ---
 
-## 概要
+## 実行方法
 
-Homebrew CaskでインストールされたClaude Codeを最新バージョンにアップグレードします。
+以下のシェルスクリプトを実行してください:
 
-## 実行手順
-
-1. **現在のバージョン確認**
-   ```bash
-   brew info --cask claude-code
-   ```
-
-2. **アップグレード実行**
-   ```bash
-   brew upgrade --cask claude-code
-   ```
-
-3. **結果報告**
-   - アップグレード成功時：新しいバージョン番号を表示
-   - 既に最新の場合：その旨を報告
-   - エラー発生時：エラー内容を報告
-
-## 使用方法
-
+```bash
+$DOTFILES_DIR/claude/scripts/upgrade-claude.sh
 ```
-/upgrade-claude
+
+`$DOTFILES_DIR` が設定されていない場合:
+
+```bash
+~/ghq/github.com/yuhgo/dotfiles/claude/scripts/upgrade-claude.sh
 ```
+
+## スクリプトの処理内容
+
+1. Homebrewの存在確認
+2. 現在のバージョン情報を表示
+3. `brew upgrade --cask claude-code` を実行
+4. 結果を報告（成功/既に最新/エラー）
 
 ## 注意事項
 
