@@ -1,12 +1,19 @@
 {
-	"permissions": {
-		"allow": [
-			"mcp__inkdrop__list-notebooks",
-			"mcp__inkdrop__search-notes",
-			"mcp__inkdrop__read-note",
-			"Bash(brew upgrade:*)"
-		]
-	},
-	"enableAllProjectMcpServers": true,
-	"enabledMcpjsonServers": ["inkdrop"]
+  "permissions": {
+    "allow": [
+      "mcp__inkdrop__list-notebooks",
+      "mcp__inkdrop__search-notes",
+      "mcp__inkdrop__read-note",
+      "Bash(brew upgrade:*)",
+      "Bash(chmod:*)",
+      "Bash(~/ghq/github.com/yuhgo/dotfiles/claude/scripts/upgrade-claude.sh)",
+      "WebSearch",
+      "WebFetch(domain:opencode.ai)",
+      "Bash(python3:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "inkdrop"
+  ]
 }
