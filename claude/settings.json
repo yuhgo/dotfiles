@@ -6,6 +6,8 @@
   },
   "permissions": {
     "allow": [
+      "Read(/Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles/nvim/**)",
+      "Write(/Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles/nvim/**)",
       "Bash(npm run dev)",
       "Bash(npm run lint)",
       "Bash(npm run test:*)",
