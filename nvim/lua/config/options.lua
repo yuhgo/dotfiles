@@ -1,35 +1,7 @@
+-- LazyVim用のオプション設定
+-- LazyVimのデフォルト設定を上書きしたい場合はここに書く
+
 local opt = vim.opt
 
--- Line numbers
-opt.number = true
-opt.relativenumber = true
-
--- Indentation
-opt.tabstop = 2
-opt.shiftwidth = 2
-opt.expandtab = true
-opt.smartindent = true
-
--- Search
-opt.ignorecase = true
-opt.smartcase = true
-opt.hlsearch = true
-opt.incsearch = true
-
--- Appearance
-opt.termguicolors = true
-opt.signcolumn = "yes"
-opt.cursorline = true
-opt.scrolloff = 8
-
--- Behavior
-opt.clipboard = "unnamedplus"
-opt.mouse = "a"
-opt.splitright = true
-opt.splitbelow = true
-opt.undofile = true
+-- 例: スワップファイルを無効化（LazyVimのデフォルトを上書き）
 opt.swapfile = false
-
--- Performance
-opt.updatetime = 250
-opt.timeoutlen = 500

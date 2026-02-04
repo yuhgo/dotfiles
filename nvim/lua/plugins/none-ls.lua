@@ -30,12 +30,4 @@ return {
       })
     end,
   },
-
-  -- ESLint integration via eslint-lsp (more reliable than eslint_d)
-  {
-    "neovim/nvim-lspconfig",
-    opts = function()
-      -- eslint is handled by eslint-lsp which is included in mason
-    end,
-  },
 }

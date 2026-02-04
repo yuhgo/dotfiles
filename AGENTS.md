@@ -31,10 +31,9 @@ ln -s $(pwd)/cursor/settings.json ~/Library/Application\ Support/Cursor/User/set
 ln -s $(pwd)/ghostty/config ~/.config/ghostty/config
 ```
 
-### Inkdrop
+### Neovim (LazyVim)
 ```bash
-ln -s $(pwd)/inkdrop/init.js ~/.config/inkdrop/init.js
-ln -s $(pwd)/inkdrop/keymap.json ~/.config/inkdrop/keymap.json
+ln -s $(pwd)/nvim ~/.config/nvim
 ```
 
 ## アーキテクチャ
@@ -75,12 +74,32 @@ ln -s $(pwd)/inkdrop/keymap.json ~/.config/inkdrop/keymap.json
 **設定ファイル**:
 - `opencode.json`: グローバル設定（テーマ、モデル、権限等）
 
+### Neovim設定 (`nvim/`)
+
+**構成**: LazyVimベース、Lua設定
+- `init.lua`: エントリーポイント、Leader=Space
+- `lua/config/options.lua`: 基本設定（相対行番号、タブ幅2、システムクリップボード連携）
+- `lua/config/keymaps.lua`: カスタムキーマップ
+- `lua/config/lazy.lua`: lazy.nvimブートストラップ
+
+**プラグイン** (`lua/plugins/`):
+- `colorscheme.lua`: Kanagawaテーマ
+- `lsp.lua`: Mason + LSP設定（Lua, TypeScript, Python, Go, Rust等）
+- `none-ls.lua`: Prettierフォーマッター連携
+- `oil.lua`: ファイルエクスプローラー（`<Leader>e` or `-`で開く）
+
+**LSPキーマップ**:
+- `gd` 定義へジャンプ、`gr` 参照、`gi` 実装
+- `<Leader>rn` リネーム、`<Leader>ca` コードアクション
+- `<Leader>f` フォーマット、`<Leader>d` 診断表示
+
 ### エディタ共通設定方針
-- **Vim統一**: Cursor, Inkdrop共にVimモード有効
+- **Vim統一**: Cursor, Neovim共にVimモード有効
   - `jj` → Escape（インサートモード）
   - `J/K` → 5行移動、`H/L` → 行頭/行末
 - **フォーマッター**: JS/TSはPrettier、GoはGolang標準、DartはDart標準
 - **フォント**: JetBrains Mono + HackGenNerd（日本語対応）
+- **テーマ統一**: Kanagawa（Ghostty, Neovim共通）
 
 ### Ghostty設定
 テーマ: Kanagawa Wave、背景透過80%、ぼかし20、タブスタイルタイトルバー
