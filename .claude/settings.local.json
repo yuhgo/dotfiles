@@ -12,7 +12,8 @@
       "Bash(~/ghq/github.com/yuhgo/dotfiles/claude/scripts/upgrade-claude.sh)",
       "WebSearch",
       "WebFetch(domain:opencode.ai)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(nvim:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
