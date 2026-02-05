@@ -1,6 +1,9 @@
 {
   "permissions": {
     "allow": [
+      "Read(~/ghq/github.com/yuhgo/dotfiles/nvim/**)",
+      "Write(~/ghq/github.com/yuhgo/dotfiles/nvim/**)",
+      "Edit(~/ghq/github.com/yuhgo/dotfiles/nvim/**)",
       "mcp__inkdrop__list-notebooks",
       "mcp__inkdrop__search-notes",
       "mcp__inkdrop__read-note",
@@ -9,7 +12,8 @@
       "Bash(~/ghq/github.com/yuhgo/dotfiles/claude/scripts/upgrade-claude.sh)",
       "WebSearch",
       "WebFetch(domain:opencode.ai)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(nvim:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
