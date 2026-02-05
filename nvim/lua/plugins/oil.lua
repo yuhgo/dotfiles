@@ -8,6 +8,9 @@ return {
         columns = {
           "icon",
         },
+        win_options = {
+          signcolumn = "yes:2",
+        },
         view_options = {
           show_hidden = true,
         },
@@ -43,5 +46,11 @@ return {
       -- 元のKの機能（ホバードキュメント）は別のキーに割り当て
       vim.keymap.set("n", "<Leader>k", vim.lsp.buf.hover, { desc = "ホバードキュメント表示" })
     end,
+  },
+  -- Git status signs for oil.nvim
+  {
+    "refractalize/oil-git-status.nvim",
+    dependencies = { "stevearc/oil.nvim" },
+    config = true,
   },
 }
