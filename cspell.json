@@ -1,0 +1,22 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "dotfiles",
+    "ghostty",
+    "kanagawa",
+    "keymaps",
+    "nvim",
+    "opencode",
+    "md"
+  ],
+  "ignoreRegExpList": [
+    "/[\\u3000-\\u9FFF\\uF900-\\uFAFF\\uFF00-\\uFFEF]+/g"
+  ],
+  "ignorePaths": [
+    "node_modules",
+    ".git",
+    "*.lock",
+    "lazy-lock.json"
+  ]
+}

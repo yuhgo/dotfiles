@@ -20,6 +20,12 @@ return {
           "graphql",
         },
       }))
+      table.insert(opts.sources, null_ls.builtins.diagnostics.cspell.with({
+        diagnostics_postprocess = function(diagnostic)
+          diagnostic.severity = vim.diagnostic.severity.HINT
+        end,
+      }))
+      table.insert(opts.sources, null_ls.builtins.code_actions.cspell)
     end,
   },
 }
