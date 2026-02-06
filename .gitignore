@@ -6,7 +6,8 @@
 .DS_Store
 
 # claude関連
-!CLAUDE.md
+!/CLAUDE.md
+!/AGENTS.md
 .mcp.json
 debug*
 statsig*
