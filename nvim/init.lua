@@ -28,6 +28,8 @@ require("lazy").setup({
 	spec = {
 		-- LazyVimをインポート
 		{ "LazyVim/LazyVim", import = "lazyvim.plugins" },
+		-- LazyVim extras
+		{ import = "lazyvim.plugins.extras.lang.tailwind" },
 		-- 自分のプラグイン設定を読み込む
 		{ import = "plugins" },
 	},

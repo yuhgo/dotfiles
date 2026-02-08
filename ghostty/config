@@ -6,7 +6,7 @@ font-family = "JetBrains Mono"
 font-family = "HackGen"
 
 # フォントサイズ変更
-font-size = 17
+font-size = 14
 
 # 背景透過
 background-opacity = 0.8
