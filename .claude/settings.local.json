@@ -19,7 +19,8 @@
       "Bash(cspell:*)",
       "Bash(git -C /Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles status --short)",
       "WebFetch(domain:docs.claude-mem.ai)",
-      "Bash(wait:*)"
+      "Bash(wait:*)",
+      "WebFetch(domain:ccusage.com)"
     ]
   },
   "enableAllProjectMcpServers": true,
