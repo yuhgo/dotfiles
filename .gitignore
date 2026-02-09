@@ -8,6 +8,8 @@
 # claude関連
 !/CLAUDE.md
 !/AGENTS.md
+!/claude/AGENTS.md
+!/claude/CLAUDE.md
 .mcp.json
 debug*
 statsig*
@@ -24,3 +26,4 @@ cache
 /claude/plans
 /claude/tasks
 /claude/telemetry
+/claude/plugins/marketplaces/thedotmack

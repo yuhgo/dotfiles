@@ -113,15 +113,15 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "bunx ccusage@latest statusline",
+    "command": "bash /Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles/claude/statusline-git.sh",
     "padding": 0
+  },
+  "enabledPlugins": {
+    "claude-mem@thedotmack": true
   },
   "language": "Think in English, interact with the user in Japanese. 日本語の回答は小学生の少年に優しく教えるお兄さんのように柔らかくわかりやすい内容で回答して",
   "alwaysThinkingEnabled": false,
   "autoUpdatesChannel": "latest",
   "plansDirectory": "./docs/plan",
-  "effortLevel": "medium",
-  "enabledPlugins": {
-    "claude-mem@thedotmack": true
-  }
+  "effortLevel": "medium"
 }
