@@ -23,7 +23,11 @@
       "WebFetch(domain:ccusage.com)",
       "Bash(git commit:*)",
       "Bash(git -C /Users/yamamotoyugo/ghq/github.com/yuhgo/obsidian diff --cached --stat)",
-      "Skill(nvim-debug)"
+      "Skill(nvim-debug)",
+      "Bash(env:*)",
+      "Bash(ghostty:*)",
+      "Bash(/Applications/Ghostty.app/Contents/MacOS/ghostty:*)",
+      "Bash(osascript:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

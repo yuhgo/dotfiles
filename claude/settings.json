@@ -99,6 +99,32 @@
     "defaultMode": "acceptEdits"
   },
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles/claude/scripts/save-ghostty-tab.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "terminal-notifier -title 'Claude Code' -subtitle 'タスク完了' -message 'Claude Codeがタスクを完了しました' -sound Glass"
+          },
+          {
+            "type": "command",
+            "command": "bash /Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles/claude/scripts/focus-ghostty.sh"
+          }
+        ]
+      }
+    ],
     "Notification": [
       {
         "matcher": "",
@@ -106,6 +132,10 @@
           {
             "type": "command",
             "command": "terminal-notifier -title 'Claude Code' -subtitle '確認待ち' -message 'Claude Codeが許可を求めています' -sound Glass -activate com.todesktop.230313mzl4w4u92"
+          },
+          {
+            "type": "command",
+            "command": "bash /Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles/claude/scripts/focus-ghostty.sh"
           }
         ]
       }
@@ -117,7 +147,7 @@
     "padding": 0
   },
   "enabledPlugins": {
-    "claude-mem@thedotmack": false
+    "claude-mem@thedotmack": true
   },
   "language": "Think in English, interact with the user in Japanese. 日本語の回答は小学生の少年に優しく教えるお兄さんのように柔らかくわかりやすい内容で回答して",
   "alwaysThinkingEnabled": false,
