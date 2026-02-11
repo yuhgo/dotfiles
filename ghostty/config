@@ -58,6 +58,10 @@ keybind = alt+j=goto_split:bottom
 keybind = cmd+shift+h=previous_tab
 keybind = cmd+shift+l=next_tab
 
+# cmd+left/right で行頭/行末移動（Neovim用）
+keybind = super+left=text:\x1b[H
+keybind = super+right=text:\x1b[F
+
 # --- Macネイティブな挙動 ---
 # タイトルバーを透明にしてスッキリさせる
 macos-titlebar-style = transparent

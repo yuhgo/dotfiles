@@ -2,7 +2,8 @@
   "env": {
     "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
     "OTEL_METRICS_EXPORTER": "otlp",
-    "ENABLE_TOOL_SEARCH": "true"
+    "ENABLE_TOOL_SEARCH": "true",
+    "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "1"
   },
   "permissions": {
     "allow": [
@@ -82,7 +83,12 @@
       "Read(id_rsa)",
       "Read(id_ed25519)",
       "Read(**/*token*)",
-      "Read(**/*key*)",
+      "Read(**/*secret*)",
+      "Read(**/*.key)",
+      "Read(**/*_key)",
+      "Read(**/*-key)",
+      "Read(**/*apikey*)",
+      "Read(**/*api_key*)",
       "Write(.env*)",
       "Write(**/secrets/**)",
       "Bash(curl:*)",
