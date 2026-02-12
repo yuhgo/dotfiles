@@ -116,3 +116,56 @@ ln -s $(pwd)/nvim ~/.config/nvim
 - 設定変更時は元アプリケーションの動作確認を行うこと
 - Claude Code権限設定で`sudo`, `rm`, `git push`等は明示的に禁止済み
 - Claude Codeの設定（`settings.json`、権限、フック等）を変更する際は、必ずこのリポジトリの`claude/`配下のファイルを編集すること（`~/.claude/`を直接編集しない。シンボリックリンクで管理されているため）
+
+## Harness ワークフロー
+
+### 開発サイクル
+
+```
+Plan → Work → Review → Ship
+```
+
+| フェーズ | コマンド | 内容 |
+|---------|---------|------|
+| Plan | `/plan-with-agent` | タスクを Plans.md に分解 |
+| Work | `/work` | Plans.md のタスクを実装 |
+| Review | `/harness-review` | コード品質・セキュリティレビュー |
+| Ship | `/commit` or `/pr` | コミット・PR作成 |
+
+### タスク管理（Plans.md）
+
+Plans.md でタスクの状態を管理する。詳細は Plans.md のマーカー凡例を参照。
+
+```
+cc:TODO → cc:WIP → cc:完了
+```
+
+### ファイル構成
+
+| ファイル | 用途 |
+|---------|------|
+| `AGENTS.md` | リポジトリ全体の構造・方針（このファイル） |
+| `CLAUDE.md` | Claude Code 固有設定 |
+| `Plans.md` | タスク管理 |
+
+### セッションルーティン
+
+**セッション開始時**:
+1. `git status` で現在の状態を確認
+2. `Plans.md` で未着手・進行中タスクを確認
+3. 作業開始時にタスクを `cc:WIP` に更新
+
+**作業完了時**:
+1. コミット（Conventional Commits 形式）
+2. Plans.md のタスクを `cc:完了` に更新
+
+### 利用可能なコマンド
+
+| コマンド | 用途 |
+|---------|------|
+| `/plan-with-agent` | タスクを Plans.md に分解 |
+| `/work` | Plans.md のタスクを実装 |
+| `/harness-review` | コード品質・セキュリティレビュー |
+| `/sync-status` | 状況把握・次アクション提案 |
+| `/commit` | コミットメッセージ生成・コミット |
+| `/pr` | Pull Request 作成 |
