@@ -24,4 +24,10 @@
 | #483 | 1:47 PM | ✅ | Plan mode Japanese filename naming rules added to AGENTS.md | ~319 |
 | #481 | 1:44 PM | ✅ | Added Japanese plan file naming rules to AGENTS.md | ~311 |
 | #480 | " | 🔵 | AGENTS.md file structure and Obsidian vault integration discovered | ~358 |
+
+### Feb 12, 2026
+
+| ID | Time | T | Title | Read |
+|----|------|---|-------|------|
+| #959 | 10:08 PM | 🔵 | Multiple AGENTS.md Files Found Across Dotfiles Structure | ~277 |
 </claude-mem-context>

@@ -27,3 +27,4 @@ cache
 /claude/tasks
 /claude/telemetry
 /claude/plugins/marketplaces/thedotmack
+/claude/plugins/marketplaces/claude-code-harness-marketplace

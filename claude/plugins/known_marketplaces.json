@@ -6,5 +6,13 @@
     },
     "installLocation": "/Users/yamamotoyugo/.claude/plugins/marketplaces/thedotmack",
     "lastUpdated": "2026-02-06T02:47:59.498Z"
+  },
+  "claude-code-harness-marketplace": {
+    "source": {
+      "source": "github",
+      "repo": "Chachamaru127/claude-code-harness"
+    },
+    "installLocation": "/Users/yamamotoyugo/.claude/plugins/marketplaces/claude-code-harness-marketplace",
+    "lastUpdated": "2026-02-12T13:05:16.795Z"
   }
 }
