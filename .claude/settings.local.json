@@ -29,7 +29,8 @@
       "Bash(/Applications/Ghostty.app/Contents/MacOS/ghostty:*)",
       "Bash(osascript:*)",
       "mcp__serena__search_for_pattern",
-      "Bash(im-select:*)"
+      "Bash(im-select:*)",
+      "mcp__plugin_claude-mem_mcp-search__get_observations"
     ]
   },
   "enableAllProjectMcpServers": true,
