@@ -27,3 +27,8 @@ keymap("v", "<Home>", "0", { noremap = true, silent = true, desc = "行頭へ移
 keymap("v", "<End>", "$", { noremap = true, silent = true, desc = "行末へ移動" })
 keymap("c", "<Home>", "<C-b>", { desc = "行頭へ移動" })
 keymap("c", "<End>", "<C-e>", { desc = "行末へ移動" })
+
+-- 現在のファイルをFinderで表示
+keymap("n", "<Leader>fo", function()
+  vim.fn.system("open -R " .. vim.fn.shellescape(vim.fn.expand("%:p")))
+end, { noremap = true, silent = true, desc = "Finderで表示" })
