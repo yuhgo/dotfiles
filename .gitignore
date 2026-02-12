@@ -28,3 +28,8 @@ cache
 /claude/telemetry
 /claude/plugins/marketplaces/thedotmack
 /claude/plugins/marketplaces/claude-code-harness-marketplace
+
+# Harness ランタイムデータ
+.claude/memory/
+.claude/sessions/
+.claude/state/
