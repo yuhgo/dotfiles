@@ -117,6 +117,12 @@ ln -s $(pwd)/nvim ~/.config/nvim
 - Claude Code権限設定で`sudo`, `rm`, `git push`等は明示的に禁止済み
 - Claude Codeの設定（`settings.json`、権限、フック等）を変更する際は、必ずこのリポジトリの`claude/`配下のファイルを編集すること（`~/.claude/`を直接編集しない。シンボリックリンクで管理されているため）
 
+### 既知のプラグイン修正（git管理外）
+
+以下の修正はプラグインキャッシュ（`~/.claude/plugins/cache/`）への直接編集のため、プラグイン更新時に上書きされる可能性がある。
+
+- **claude-mem v9.0.17**: `hooks/hooks.json` の `PostToolUse` matcher を `"*"` から Task を除外した明示的なツール一覧に変更。Taskツールの大きなレスポンスが observation API に送られて HTTP 400 エラーになる問題の回避策（`Observation storage failed: 400`）。この修正がないと `PostToolUse:Task hook error` が発生し、Stop hook の `unresolved error` 誤判定も連鎖する。
+
 ## Harness ワークフロー
 
 ### 開発サイクル
