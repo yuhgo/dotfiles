@@ -30,7 +30,14 @@
       "Bash(osascript:*)",
       "mcp__serena__search_for_pattern",
       "Bash(im-select:*)",
-      "mcp__plugin_claude-mem_mcp-search__get_observations"
+      "mcp__plugin_claude-mem_mcp-search__get_observations",
+      "Skill(git-commit-message)",
+      "Bash(command -v:*)",
+      "Bash(bash:*)",
+      "Bash(echo:*)",
+      "Bash(CLAUDE_PLUGIN_ROOT=/Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles/claude/plugins/cache/thedotmack/claude-mem/9.0.17 node:*)",
+      "Bash(claude plugin update:*)",
+      "Bash(claude plugin list:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
