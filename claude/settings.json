@@ -160,5 +160,6 @@
   "alwaysThinkingEnabled": false,
   "autoUpdatesChannel": "latest",
   "plansDirectory": "./docs/plan",
+  "skipDangerousModePermissionPrompt": true,
   "effortLevel": "medium"
 }
