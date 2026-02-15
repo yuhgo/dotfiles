@@ -40,7 +40,9 @@
       "Bash(claude plugin list:*)",
       "Bash(npm install:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(magick:*)"
+      "Bash(magick:*)",
+      "Bash(XDG_CONFIG_HOME=/Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles nvim:*)",
+      "Bash(defaults read:*)",
     ]
   },
   "enableAllProjectMcpServers": true,

@@ -8,9 +8,9 @@ keymap("i", "jj", "<Esc>", { noremap = true, silent = true, desc = "Exit insert 
 -- 日本語入力中のjj（っj）でもエスケープ
 keymap("i", "っj", "<Esc>", { noremap = true, silent = true, desc = "Exit insert mode (Japanese)" })
 
--- J/Kで5行移動
-keymap({ "n", "v" }, "J", "5j", { noremap = true, silent = true, desc = "5行下へ移動" })
-keymap({ "n", "v" }, "K", "5k", { noremap = true, silent = true, desc = "5行上へ移動" })
+-- J/Kで5行移動（nowait: which-keyのtimeout待ちをスキップして即座に実行）
+keymap({ "n", "v" }, "J", "5j", { noremap = true, silent = true, nowait = true, desc = "5行下へ移動" })
+keymap({ "n", "v" }, "K", "5k", { noremap = true, silent = true, nowait = true, desc = "5行上へ移動" })
 
 -- 元のJ（行結合）をLeader+jに移動
 keymap("n", "<Leader>j", "J", { noremap = true, silent = true, desc = "行を結合" })

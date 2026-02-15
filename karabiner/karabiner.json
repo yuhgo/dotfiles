@@ -1,0 +1,549 @@
+{
+    "global": { "show_profile_name_in_menu_bar": true },
+    "profiles": [
+        {
+            "complex_modifications": {
+                "rules": [
+                    {
+                        "description": "「right_option + spacebar」で「0」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "n",
+                                    "modifiers": { "mandatory": ["right_option"] }
+                                },
+                                "to": [{ "key_code": "0" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_option + m」で「1」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "m",
+                                    "modifiers": { "mandatory": ["right_option"] }
+                                },
+                                "to": [{ "key_code": "1" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_option + comma」で「2」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "comma",
+                                    "modifiers": { "mandatory": ["right_option"] }
+                                },
+                                "to": [{ "key_code": "2" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_option + period」で「3」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "period",
+                                    "modifiers": { "mandatory": ["right_option"] }
+                                },
+                                "to": [{ "key_code": "3" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_option + j」で「4」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "j",
+                                    "modifiers": { "mandatory": ["right_option"] }
+                                },
+                                "to": [{ "key_code": "4" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_option + k」で「5」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "k",
+                                    "modifiers": { "mandatory": ["right_option"] }
+                                },
+                                "to": [{ "key_code": "5" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_option + l」で「6」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "l",
+                                    "modifiers": { "mandatory": ["right_option"] }
+                                },
+                                "to": [{ "key_code": "6" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_option + u」で「7」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "u",
+                                    "modifiers": { "mandatory": ["right_option"] }
+                                },
+                                "to": [{ "key_code": "7" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_option + i」で「8」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "i",
+                                    "modifiers": { "mandatory": ["right_option"] }
+                                },
+                                "to": [{ "key_code": "8" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_option + o」で「9」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "o",
+                                    "modifiers": { "mandatory": ["right_option"] }
+                                },
+                                "to": [{ "key_code": "9" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_control + o」で「-」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "o",
+                                    "modifiers": {
+                                        "mandatory": ["right_control"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [{ "key_code": "hyphen" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_control + p」で「=」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "p",
+                                    "modifiers": {
+                                        "mandatory": ["right_control"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [{ "key_code": "equal_sign" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_control + m」で「.」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "m",
+                                    "modifiers": {
+                                        "mandatory": ["right_control"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [{ "key_code": "period" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_control + m」で「,」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "v",
+                                    "modifiers": {
+                                        "mandatory": ["right_control"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [{ "key_code": "comma" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_control + t」で「(」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "t",
+                                    "modifiers": {
+                                        "mandatory": ["right_control"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "9",
+                                        "modifiers": ["shift"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_control + y」で「)」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "y",
+                                    "modifiers": {
+                                        "mandatory": ["right_control"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "0",
+                                        "modifiers": ["shift"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_control + r」で「[」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "r",
+                                    "modifiers": {
+                                        "mandatory": ["right_control"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [{ "key_code": "open_bracket" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「right_control + r」で「]」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "u",
+                                    "modifiers": {
+                                        "mandatory": ["right_control"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [{ "key_code": "close_bracket" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "「spacebar」を単体で押したときに「spacebar」を送信し、「spacebar」+その他のキーの場合は「control」を送信する",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "spacebar",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [{ "key_code": "right_control" }],
+                                "to_if_alone": [{ "key_code": "spacebar" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "コマンドキーを単体で押したときに、英数・かなキーを送信する。（左コマンドキーは英数、右コマンドキーはかな） (rev 3)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "left_command",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "parameters": { "basic.to_if_held_down_threshold_milliseconds": 100 },
+                                "to": [
+                                    {
+                                        "key_code": "left_command",
+                                        "lazy": true
+                                    }
+                                ],
+                                "to_if_alone": [{ "key_code": "japanese_eisuu" }],
+                                "to_if_held_down": [{ "key_code": "left_command" }],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "right_command",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "parameters": { "basic.to_if_held_down_threshold_milliseconds": 100 },
+                                "to": [
+                                    {
+                                        "key_code": "right_command",
+                                        "lazy": true
+                                    }
+                                ],
+                                "to_if_alone": [{ "key_code": "japanese_kana" }],
+                                "to_if_held_down": [{ "key_code": "right_command" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "コマンドキーを単体で押したときに、IMEのON・OF(shift+F8, shift+F12)を送信する。(rev 3)",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.splashtop\\.stb\\.macosx"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "left_command",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "parameters": { "basic.to_if_held_down_threshold_milliseconds": 100 },
+                                "to": [
+                                    {
+                                        "key_code": "left_command",
+                                        "lazy": true
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "f8",
+                                        "modifiers": ["left_shift"]
+                                    }
+                                ],
+                                "to_if_held_down": [{ "key_code": "left_command" }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.splashtop\\.stb\\.macosx"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "right_command",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "parameters": { "basic.to_if_held_down_threshold_milliseconds": 100 },
+                                "to": [
+                                    {
+                                        "key_code": "right_command",
+                                        "lazy": true
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "f12",
+                                        "modifiers": ["left_shift"]
+                                    }
+                                ],
+                                "to_if_held_down": [{ "key_code": "right_command" }],
+                                "type": "basic"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "devices": [
+                {
+                    "identifiers": { "is_keyboard": true },
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "caps_lock" },
+                            "to": [{ "key_code": "right_option" }]
+                        },
+                        {
+                            "from": { "key_code": "japanese_eisuu" },
+                            "to": [{ "key_code": "left_command" }]
+                        },
+                        {
+                            "from": { "key_code": "japanese_kana" },
+                            "to": [{ "key_code": "right_command" }]
+                        },
+                        {
+                            "from": { "key_code": "left_command" },
+                            "to": [{ "key_code": "left_option" }]
+                        },
+                        {
+                            "from": { "key_code": "left_control" },
+                            "to": [{ "key_code": "left_control" }]
+                        },
+                        {
+                            "from": { "key_code": "right_command" },
+                            "to": [{ "key_code": "right_option" }]
+                        }
+                    ]
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "product_id": 58148,
+                        "vendor_id": 1046
+                    },
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "japanese_eisuu" },
+                            "to": [{ "key_code": "left_command" }]
+                        }
+                    ]
+                },
+                {
+                    "identifiers": {
+                        "is_pointing_device": true,
+                        "product_id": 58148,
+                        "vendor_id": 1046
+                    },
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "japanese_eisuu" },
+                            "to": [{ "key_code": "left_command" }]
+                        }
+                    ]
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "product_id": 20786,
+                        "vendor_id": 1155
+                    },
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "caps_lock" },
+                            "to": [{ "key_code": "left_control" }]
+                        }
+                    ]
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": true,
+                        "product_id": 272,
+                        "vendor_id": 1452
+                    },
+                    "ignore": false,
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "caps_lock" },
+                            "to": [{ "key_code": "left_control" }]
+                        },
+                        {
+                            "from": { "key_code": "left_command" },
+                            "to": [{ "key_code": "left_option" }]
+                        },
+                        {
+                            "from": { "key_code": "left_control" },
+                            "to": [{ "key_code": "right_option" }]
+                        },
+                        {
+                            "from": { "key_code": "left_option" },
+                            "to": [{ "key_code": "left_command" }]
+                        }
+                    ]
+                }
+            ],
+            "name": "Mac",
+            "simple_modifications": [
+                {
+                    "from": { "apple_vendor_top_case_key_code": "keyboard_fn" },
+                    "to": [{ "key_code": "caps_lock" }]
+                },
+                {
+                    "from": { "key_code": "caps_lock" },
+                    "to": [{ "key_code": "left_control" }]
+                },
+                {
+                    "from": { "key_code": "left_command" },
+                    "to": [{ "key_code": "left_option" }]
+                },
+                {
+                    "from": { "key_code": "left_control" },
+                    "to": [{ "key_code": "right_option" }]
+                },
+                {
+                    "from": { "key_code": "left_option" },
+                    "to": [{ "key_code": "left_command" }]
+                },
+                {
+                    "from": { "key_code": "right_option" },
+                    "to": [{ "key_code": "right_command" }]
+                }
+            ],
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
+        },
+        {
+            "complex_modifications": {
+                "rules": []
+            },
+            "devices": [
+                {
+                    "disable_built_in_keyboard_if_exists": true,
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "product_id": 512,
+                        "vendor_id": 22871
+                    }
+                },
+                {
+                    "disable_built_in_keyboard_if_exists": true,
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": true,
+                        "product_id": 24926,
+                        "vendor_id": 7504
+                    },
+                    "ignore": false
+                }
+            ],
+            "name": "roBa",
+            "selected": true,
+            "virtual_hid_keyboard": {
+                "keyboard_type_v2": "ansi",
+                "mouse_key_xy_scale": 200
+            }
+        }
+    ]
+}
