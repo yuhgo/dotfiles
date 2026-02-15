@@ -37,7 +37,10 @@
       "Bash(echo:*)",
       "Bash(CLAUDE_PLUGIN_ROOT=/Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles/claude/plugins/cache/thedotmack/claude-mem/9.0.17 node:*)",
       "Bash(claude plugin update:*)",
-      "Bash(claude plugin list:*)"
+      "Bash(claude plugin list:*)",
+      "Bash(npm install:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(magick:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
