@@ -14,7 +14,8 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        -- 全サーバー共通: Kキーマップを無効化
+        -- K（ホバー）を無効化: keymaps.luaで5k移動に使っているため
+        -- opts_extendにより他のデフォルトキーマップ(gd,gr等)はマージされて残る
         ["*"] = {
           keys = {
             { "K", false },
