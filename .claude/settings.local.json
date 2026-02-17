@@ -43,7 +43,9 @@
       "Bash(magick:*)",
       "Bash(XDG_CONFIG_HOME=/Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles nvim:*)",
       "Bash(defaults read:*)",
-      "Bash(npx lighthouse --version)"
+      "Bash(npx lighthouse --version)",
+      "Bash(typescript-language-server:*)",
+      "Bash(tsc:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

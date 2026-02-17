@@ -15,8 +15,15 @@ keymap({ "n", "v" }, "K", "5k", { noremap = true, silent = true, nowait = true, 
 -- 元のJ（行結合）をLeader+jに移動
 keymap("n", "<Leader>j", "J", { noremap = true, silent = true, desc = "行を結合" })
 
--- 元のKの機能（ホバードキュメント）をLeader+kに移動
-keymap("n", "<Leader>k", vim.lsp.buf.hover, { noremap = true, silent = true, desc = "ホバードキュメント表示" })
+-- LSP UI（lspsaga）
+keymap("n", "<Leader>k", "<cmd>Lspsaga hover_doc<CR>", { noremap = true, silent = true, desc = "ホバードキュメント表示" })
+keymap("n", "gl", "<cmd>Lspsaga show_line_diagnostics<CR>", { noremap = true, silent = true, desc = "行の診断を表示" })
+keymap("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { noremap = true, silent = true, desc = "前の診断へ" })
+keymap("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", { noremap = true, silent = true, desc = "次の診断へ" })
+keymap("n", "<Leader>ca", "<cmd>Lspsaga code_action<CR>", { noremap = true, silent = true, desc = "コードアクション" })
+keymap("n", "<Leader>cr", "<cmd>Lspsaga rename<CR>", { noremap = true, silent = true, desc = "リネーム" })
+keymap("n", "gp", "<cmd>Lspsaga peek_definition<CR>", { noremap = true, silent = true, desc = "定義をプレビュー" })
+keymap("n", "gf", "<cmd>Lspsaga finder<CR>", { noremap = true, silent = true, desc = "参照・定義を検索" })
 
 -- cmd+left/right で行頭/行末移動（Ghosttyから送られるHome/Endシーケンスに対応）
 keymap("n", "<Home>", "0", { noremap = true, silent = true, desc = "行頭へ移動" })
