@@ -59,13 +59,11 @@ return {
           vim.api.nvim_set_hl(0, group, hl)
         end
 
-        -- 行番号を白に、現在行はオレンジ（bold）のまま
-        vim.api.nvim_set_hl(0, "LineNr", { fg = "#DCD7BA" })
-        vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#DCD7BA" })
-        vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#DCD7BA" })
-        local clnr = vim.api.nvim_get_hl(0, { name = "CursorLineNr" })
-        clnr.bg = nil
-        vim.api.nvim_set_hl(0, "CursorLineNr", clnr)
+        -- 行番号を薄い白に（fujiGray）、現在行はオレンジ（bold）のまま
+        vim.api.nvim_set_hl(0, "LineNr", { fg = "#727169" })
+        vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#727169" })
+        vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#727169" })
+        vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#FFB380", bold = true })
 
         -- DiagnosticSign系・GitSigns系も背景だけ消す
         for _, name in ipairs({
@@ -76,6 +74,10 @@ return {
           hl.bg = nil
           vim.api.nvim_set_hl(0, name, hl)
         end
+
+        -- カーソル十字ハイライト（fujiWhite #DCD7BA を ~15% opacity で合成した白みのある色）
+        vim.api.nvim_set_hl(0, "CursorLine", { bg = "#3A3A42" })
+        vim.api.nvim_set_hl(0, "CursorColumn", { bg = "#3A3A42" })
 
         -- 行番号の右側にボーダー（WinSeparator）
         vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#727169", bg = "NONE" })

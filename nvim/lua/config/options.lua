@@ -6,6 +6,9 @@ local opt = vim.opt
 -- 例: スワップファイルを無効化（LazyVimのデフォルトを上書き）
 opt.swapfile = false
 
+-- カーソル位置の列をハイライト（cursorlineと合わせて十字表示になる）
+opt.cursorcolumn = true
+
 -- 行番号の右側にボーダーを表示（LazyVimのstatuscolumnをラップ）
 vim.api.nvim_create_autocmd("User", {
   pattern = "VeryLazy",
