@@ -15,7 +15,7 @@ background-opacity = 0.8
 background-blur = 20
 
 # アクティブでない分割ペインを暗くする
-unfocused-split-opacity = 0.6
+unfocused-split-opacity = 0.5
 
 # ペイン境界線の色（オレンジ）
 split-divider-color = #ff9500

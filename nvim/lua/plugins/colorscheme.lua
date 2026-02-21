@@ -20,9 +20,21 @@ return {
       keywordStyle = { italic = true },
       statementStyle = { bold = true },
       typeStyle = {},
-      transparent = false,
+      transparent = true,
       dimInactive = false,
       terminalColors = true,
+      overrides = function(colors)
+        return {
+          -- サイドバー系の背景を透過
+          NeoTreeNormal = { bg = "NONE" },
+          NeoTreeNormalNC = { bg = "NONE" },
+          NeoTreeEndOfBuffer = { bg = "NONE" },
+          -- フローティングウィンドウも透過
+          NormalFloat = { bg = "NONE" },
+          FloatBorder = { bg = "NONE" },
+          FloatTitle = { bg = "NONE" },
+        }
+      end,
     },
   },
 }
