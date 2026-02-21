@@ -31,6 +31,16 @@ return {
           ["gs"] = { "actions.change_sort", desc = "ソート順を変更" },
           ["gx"] = { "actions.open_external", desc = "外部アプリで開く" },
           ["g."] = { "actions.toggle_hidden", desc = "隠しファイルを切り替え" },
+          ["yy"] = {
+            desc = "ファイル名をコピー",
+            callback = function()
+              local entry = require("oil").get_cursor_entry()
+              if entry then
+                vim.fn.setreg("+", entry.name)
+                vim.notify("Copied: " .. entry.name)
+              end
+            end,
+          },
           ["yp"] = {
             desc = "相対パスをコピー",
             callback = function()
