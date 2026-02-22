@@ -25,6 +25,9 @@ vim.api.nvim_create_autocmd("User", {
   end,
 })
 
+-- Markdownのconcealをカーソル行でも維持（カーソル移動時のガタつきを防止）
+opt.concealcursor = "nc"
+
 -- 組み込みspellを無効化（スペルチェックはcspell + none-lsに任せる）
 -- SpellBad等のハイライトを消して波線を非表示にする
 opt.spell = false
