@@ -8,14 +8,17 @@ font-family = "HackGen"
 # フォントサイズ変更
 font-size = 14
 
+# 背景色（kanagawa wave）
+background = #1F1F28
+
 # 背景透過
-background-opacity = 0.8
+background-opacity = 0.9
 
 # 背景ぼかし（macOS）
 background-blur = 20
 
 # アクティブでない分割ペインを暗くする
-unfocused-split-opacity = 0.6
+unfocused-split-opacity = 0.5
 
 # ペイン境界線の色（オレンジ）
 split-divider-color = #ff9500
