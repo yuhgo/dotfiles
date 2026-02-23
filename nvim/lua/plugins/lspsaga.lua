@@ -37,11 +37,9 @@ return {
         width = 0.6,
         height = 0.5,
       },
-      -- ライトバルブ（コードアクションがあるときの表示）
+      -- ライトバルブ無効化（sign表示/非表示でsigncolumn幅が変動しガタつくため）
       lightbulb = {
-        enable = true,
-        sign = true,
-        virtual_text = false,
+        enable = false,
       },
       -- パンくずリスト（ウィンドウバーにシンボルパスを表示）
       symbol_in_winbar = {
