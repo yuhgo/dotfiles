@@ -45,7 +45,8 @@
       "Bash(defaults read:*)",
       "Bash(npx lighthouse --version)",
       "Bash(typescript-language-server:*)",
-      "Bash(tsc:*)"
+      "Bash(tsc:*)",
+      "Bash(tail:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
