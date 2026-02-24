@@ -14,5 +14,13 @@
     },
     "installLocation": "/Users/yamamotoyugo/.claude/plugins/marketplaces/claude-code-harness-marketplace",
     "lastUpdated": "2026-02-12T13:05:16.795Z"
+  },
+  "claude-mem-jp": {
+    "source": {
+      "source": "github",
+      "repo": "Chachamaru127/claude-mem-jp"
+    },
+    "installLocation": "/Users/yamamotoyugo/.claude/plugins/marketplaces/claude-mem-jp",
+    "lastUpdated": "2026-02-24T01:09:48.279Z"
   }
 }

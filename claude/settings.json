@@ -76,6 +76,7 @@
       "Bash(sudo:*)",
       "Bash(rm:*)",
       "Bash(rm -rf:*)",
+      "Bash(rmdir:*)",
       "Bash(git push:*)",
       "Bash(git reset:*)",
       "Bash(git rebase:*)",
@@ -154,7 +155,8 @@
   },
   "enabledPlugins": {
     "claude-mem@thedotmack": true,
-    "claude-code-harness@claude-code-harness-marketplace": true
+    "claude-code-harness@claude-code-harness-marketplace": true,
+    "claude-mem-japanese@claude-mem-jp": true
   },
   "language": "Think in English, interact with the user in Japanese. 日本語の回答は小学生の少年に優しく教えるお兄さんのように柔らかくわかりやすい内容で回答して",
   "alwaysThinkingEnabled": false,
