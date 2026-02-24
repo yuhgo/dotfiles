@@ -20,6 +20,16 @@
         "lastUpdated": "2026-02-12T13:05:53.904Z",
         "gitCommitSha": "7f91186b2d980886ae8ec4bce6a6085d79b5af15"
       }
+    ],
+    "claude-mem-japanese@claude-mem-jp": [
+      {
+        "scope": "user",
+        "installPath": "/Users/yamamotoyugo/.claude/plugins/cache/claude-mem-jp/claude-mem-japanese/1.2.1",
+        "version": "1.2.1",
+        "installedAt": "2026-02-24T01:10:01.213Z",
+        "lastUpdated": "2026-02-24T01:10:01.213Z",
+        "gitCommitSha": "29adf603591368ddf92f705f115e878883143460"
+      }
     ]
   }
 }
