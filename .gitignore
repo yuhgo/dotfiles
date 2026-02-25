@@ -19,6 +19,7 @@ file-history*
 shell-snapshots*
 history.jsonl
 settings.json
+!/.claude/settings.json
 stats-cache.json
 ide*
 paste-cache
@@ -33,3 +34,12 @@ cache
 .claude/memory/
 .claude/sessions/
 .claude/state/
+.claude-code-harness/backups/
+claude/backups/
+
+# 外部ツール自動生成
+.agent/
+.windsurf/
+
+# Dogfood テスト出力
+dogfood-output/
