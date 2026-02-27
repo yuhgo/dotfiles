@@ -85,10 +85,13 @@ prefix（feat:, fix:, style:, chore:, refactor:）を除去し、リポジトリ
 
 ## 出力TSVフォーマット
 
+- 同一日の最初の行にのみ日付を表示し、2行目以降の日付列は空にする
+- スプレッドシートに貼り付けた際、日付列がグループ化されて見やすくなる
+
 ```
 日付	開始時間	終了時間	作業内容
 1月5日(月)	10:30	10:45	朝会
-1月5日(月)	15:00	16:00	ZDC定例
+	15:00	16:00	ZDC定例
 1月6日(火)	14:48	16:11	決済画面 購入履歴画面の月額/年額表示を修正
 ```
 
@@ -193,8 +196,16 @@ def date_to_japanese(date_str):
     return f"{dt.month}月{dt.day}日({weekdays[dt.weekday()]})"
 
 with open("/tmp/excel_work/日報データ.tsv", 'w', encoding='utf-8') as f:
+    prev_date = None
     for c in all_commits:
-        f.write(f"{date_to_japanese(c['date'])}\t{c['start_time']}\t{c['end_time']}\t{c['message']}\n")
+        date_jp = date_to_japanese(c['date'])
+        # 同一日の2行目以降は日付列を空にする
+        if date_jp == prev_date:
+            date_col = ""
+        else:
+            date_col = date_jp
+            prev_date = date_jp
+        f.write(f"{date_col}\t{c['start_time']}\t{c['end_time']}\t{c['message']}\n")
 ```
 
 ## スプレッドシートへの貼り付け

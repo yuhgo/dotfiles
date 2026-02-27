@@ -47,7 +47,14 @@
       "Bash(typescript-language-server:*)",
       "Bash(tsc:*)",
       "Bash(tail:*)",
-      "Bash(jq:*)"
+      "Bash(jq:*)",
+      "mcp__harness__harness_mem_health",
+      "mcp__harness__harness_status",
+      "mcp__harness__harness_mem_sessions_list",
+      "mcp__harness__harness_mem_admin_audit_log",
+      "Bash(npm info:*)",
+      "Bash(npx:*)",
+      "mcp__harness__harness_mem_record_checkpoint"
     ]
   },
   "enableAllProjectMcpServers": true,
