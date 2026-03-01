@@ -3,6 +3,9 @@
 
 local opt = vim.opt
 
+-- Shift_JIS/EUC-JPファイルの自動検出（上から順に試行）
+opt.fileencodings = { "ucs-bom", "utf-8", "cp932", "euc-jp", "latin1" }
+
 -- 例: スワップファイルを無効化（LazyVimのデフォルトを上書き）
 opt.swapfile = false
 
