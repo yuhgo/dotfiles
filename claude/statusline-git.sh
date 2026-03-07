@@ -24,7 +24,7 @@ color_for_pct() {
   elif (( pct >= 50 )); then
     printf '%s' "$YELLOW"
   else
-    printf '%s' "$GREEN"
+    printf '%s' "$BLUE"
   fi
 }
 
@@ -36,9 +36,12 @@ progress_bar() {
   local color
   color=$(color_for_pct "$pct")
   local bar=""
-  for ((i=0; i<filled; i++)); do bar+="█"; done
-  for ((i=0; i<empty; i++)); do bar+="░"; done
-  printf '%b%s%b' "$color" "$bar" "$RESET"
+  bar+=$(printf '%b' "$color")
+  for ((i=0; i<filled; i++)); do bar+="▆"; done
+  bar+=$(printf '%b' "$GRAY")
+  for ((i=0; i<empty; i++)); do bar+="▆"; done
+  bar+=$(printf '%b' "$RESET")
+  printf '%s' "$bar"
 }
 
 # ── Line 1: Session info ──
@@ -55,15 +58,20 @@ if [ -n "$used_pct" ]; then
 fi
 ctx_color=$(color_for_pct "$ctx_int")
 
-# Git branch
+# Git branch & repo name
 git_branch=""
+repo_name=""
 if [ -n "$cwd" ] && git -C "$cwd" rev-parse --git-dir > /dev/null 2>&1; then
   git_branch=$(git -C "$cwd" symbolic-ref --short HEAD 2>/dev/null || git -C "$cwd" rev-parse --short HEAD 2>/dev/null)
+  repo_name=$(basename "$(git -C "$cwd" rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null)
 fi
 
 sep="${GRAY} | ${RESET}"
 
 line1="🤖 ${CYAN}${model}${RESET}${sep}${ctx_color}📊 ${ctx_int}%${RESET}${sep}✏️ ${GREEN}+${lines_added}${RESET}/${RED}-${lines_removed}${RESET}"
+if [ -n "$repo_name" ]; then
+  line1+="${sep}📁 ${BLUE}${repo_name}${RESET}"
+fi
 if [ -n "$git_branch" ]; then
   line1+="${sep}🔀 ${ORANGE}${git_branch}${RESET}"
 fi
