@@ -1,88 +1,201 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Claude Code Statusline
+# 3-line display: session info, 5h usage, 7d usage
+# Colors: Kanagawa Wave palette
 
-# 標準入力からJSONを読み込む
+set -euo pipefail
+
 input=$(cat)
 
-# JSONから情報を抽出
-model_name=$(echo "$input" | jq -r '.model.display_name')
-current_dir=$(echo "$input" | jq -r '.workspace.current_dir')
+# ── Colors (Kanagawa Wave) ──
+GREEN="\033[38;2;152;187;108m"   # springGreen #98BB6C
+YELLOW="\033[38;2;230;195;132m"  # carpYellow  #E6C384
+RED="\033[38;2;255;93;98m"       # peachRed    #FF5D62
+GRAY="\033[38;2;114;113;105m"    # fujiGray    #727169
+BLUE="\033[38;2;126;156;216m"    # crystalBlue #7E9CD8
+CYAN="\033[38;2;127;180;202m"    # springBlue  #7FB4CA
+ORANGE="\033[38;2;255;160;102m"  # surimiOrange #FFA066
+RESET="\033[0m"
 
-# コンテキストウィンドウ情報を抽出
-context_size=$(echo "$input" | jq -r '.context_window.context_window_size // 200000')
-current_usage=$(echo "$input" | jq '.context_window.current_usage')
+color_for_pct() {
+  local pct=$1
+  if (( pct >= 80 )); then
+    printf '%s' "$RED"
+  elif (( pct >= 50 )); then
+    printf '%s' "$YELLOW"
+  else
+    printf '%s' "$BLUE"
+  fi
+}
 
-# コンテキスト使用率を計算
-if [ "$current_usage" != "null" ]; then
-    current_tokens=$(echo "$current_usage" | jq '.input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens')
-    context_percent=$((current_tokens * 100 / context_size))
-else
-    context_percent=0
+# ── Progress bar (10 segments) ──
+progress_bar() {
+  local pct=$1
+  local filled=$(( pct / 10 ))
+  local empty=$(( 10 - filled ))
+  local color
+  color=$(color_for_pct "$pct")
+  local bar=""
+  bar+=$(printf '%b' "$color")
+  for ((i=0; i<filled; i++)); do bar+="▆"; done
+  bar+=$(printf '%b' "$GRAY")
+  for ((i=0; i<empty; i++)); do bar+="▆"; done
+  bar+=$(printf '%b' "$RESET")
+  printf '%s' "$bar"
+}
+
+# ── Line 1: Session info ──
+model=$(echo "$input" | jq -r '.model.display_name // ""')
+used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
+lines_added=$(echo "$input" | jq -r '.cost.total_lines_added // 0')
+lines_removed=$(echo "$input" | jq -r '.cost.total_lines_removed // 0')
+cwd=$(echo "$input" | jq -r '.workspace.current_dir // ""')
+
+# Context percentage (integer)
+ctx_int=0
+if [ -n "$used_pct" ]; then
+  printf -v ctx_int "%.0f" "$used_pct" 2>/dev/null || ctx_int="${used_pct%%.*}"
+fi
+ctx_color=$(color_for_pct "$ctx_int")
+
+# Git branch & repo name
+git_branch=""
+repo_name=""
+if [ -n "$cwd" ] && git -C "$cwd" rev-parse --git-dir > /dev/null 2>&1; then
+  git_branch=$(git -C "$cwd" symbolic-ref --short HEAD 2>/dev/null || git -C "$cwd" rev-parse --short HEAD 2>/dev/null)
+  repo_name=$(basename "$(git -C "$cwd" rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null)
 fi
 
-# コンテキストプログレスバーを構築（20文字幅）
-bar_width=15
-filled=$((context_percent * bar_width / 100))
-empty=$((bar_width - filled))
-bar=""
-for ((i=0; i<filled; i++)); do bar+="█"; done
-for ((i=0; i<empty; i++)); do bar+="░"; done
+sep="${GRAY} | ${RESET}"
 
-# コスト情報を抽出
-session_cost=$(echo "$input" | jq -r '.cost.total_cost_usd // empty')
-[ "$session_cost" != "empty" ] && session_cost=$(printf "%.4f" "$session_cost") || session_cost=""
+line1="🤖 ${CYAN}${model}${RESET}${sep}${ctx_color}📊 ${ctx_int}%${RESET}${sep}✏️ ${GREEN}+${lines_added}${RESET}/${RED}-${lines_removed}${RESET}"
+if [ -n "$repo_name" ]; then
+  line1+="${sep}📁 ${BLUE}${repo_name}${RESET}"
+fi
+if [ -n "$git_branch" ]; then
+  line1+="${sep}🔀 ${ORANGE}${git_branch}${RESET}"
+fi
 
-# ディレクトリ名を取得（basename）
-dir_name=$(basename "$current_dir")
+# ── Usage API (OAuth, cached 360s) ──
+CACHE_FILE="/tmp/claude-usage-cache.json"
+CACHE_TTL=360
 
-# 色の定義
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-GRAY='\033[0;90m'
-NC='\033[0m' # 色なし
+fetch_usage() {
+  # Get OAuth token from macOS Keychain
+  local token
+  token=$(security find-generic-password -s "Claude Code-credentials" -w 2>/dev/null || true)
+  if [ -z "$token" ]; then
+    return 1
+  fi
 
-# git情報を取得するために現在のディレクトリに移動
-cd "$current_dir" 2>/dev/null || cd /
+  # Token is stored as JSON with nested structure
+  local access_token
+  access_token=$(echo "$token" | jq -r '.claudeAiOauth.accessToken // .accessToken // .access_token // empty' 2>/dev/null || true)
+  if [ -z "$access_token" ]; then
+    return 1
+  fi
 
-# gitブランチを取得
-if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    branch=$(git branch --show-current 2>/dev/null || echo "detached")
+  local response
+  response=$(curl -sf --max-time 5 \
+    -H "Authorization: Bearer ${access_token}" \
+    -H "anthropic-beta: oauth-2025-04-20" \
+    "https://api.anthropic.com/api/oauth/usage" 2>/dev/null) || return 1
 
-    # ファイル数を含むgitステータスを取得
-    status_output=$(git status --porcelain 2>/dev/null)
+  # Write cache with timestamp
+  local now
+  now=$(date +%s)
+  echo "$response" | jq --arg ts "$now" '. + {cached_at: ($ts | tonumber)}' > "$CACHE_FILE" 2>/dev/null
+  echo "$response"
+}
 
-    if [ -n "$status_output" ]; then
-        # ファイル数をカウントし、基本的な行統計を取得
-        total_files=$(echo "$status_output" | wc -l | xargs)
-        line_stats=$(git diff --numstat HEAD 2>/dev/null | awk '{added+=$1; removed+=$2} END {print added+0, removed+0}')
+get_usage() {
+  local now
+  now=$(date +%s)
 
-        added=$(echo $line_stats | cut -d' ' -f1)
-        removed=$(echo $line_stats | cut -d' ' -f2)
-
-        # ステータス表示を構築
-        git_info=" ${YELLOW}($branch${NC} ${YELLOW}|${NC} ${GRAY}${total_files} files${NC}"
-
-        [ "$added" -gt 0 ] && git_info="${git_info} ${GREEN}+${added}${NC}"
-        [ "$removed" -gt 0 ] && git_info="${git_info} ${RED}-${removed}${NC}"
-
-        git_info="${git_info} ${YELLOW})${NC}"
-    else
-        git_info=" ${YELLOW}($branch)${NC}"
+  # Check cache
+  if [ -f "$CACHE_FILE" ]; then
+    local cached_at
+    cached_at=$(jq -r '.cached_at // 0' "$CACHE_FILE" 2>/dev/null || echo "0")
+    local age=$(( now - cached_at ))
+    if (( age < CACHE_TTL )); then
+      jq -r 'del(.cached_at)' "$CACHE_FILE" 2>/dev/null
+      return 0
     fi
-else
-    git_info=""
+  fi
+
+  fetch_usage
+}
+
+# Convert ISO 8601 to epoch seconds (macOS compatible)
+iso_to_epoch() {
+  local iso_time=$1
+  local stripped="${iso_time%%.*}"
+  TZ=UTC date -j -f "%Y-%m-%dT%H:%M:%S" "$stripped" +%s 2>/dev/null || echo ""
+}
+
+# Format reset time for 5h window: "Resets 5pm (Asia/Tokyo)"
+format_5h_reset() {
+  local iso_time=$1
+  local epoch
+  epoch=$(iso_to_epoch "$iso_time")
+  [ -z "$epoch" ] && return
+  LC_ALL=en_US.UTF-8 TZ="Asia/Tokyo" date -r "$epoch" +"Resets %-l%p (Asia/Tokyo)" 2>/dev/null | sed 's/AM/am/;s/PM/pm/'
+}
+
+# Format reset time for 7d window: "Resets Mar 6 at 12pm (Asia/Tokyo)"
+format_7d_reset() {
+  local iso_time=$1
+  local epoch
+  epoch=$(iso_to_epoch "$iso_time")
+  [ -z "$epoch" ] && return
+  LC_ALL=en_US.UTF-8 TZ="Asia/Tokyo" date -r "$epoch" +"Resets %b %-d at %-l%p (Asia/Tokyo)" 2>/dev/null | sed 's/AM/am/;s/PM/pm/'
+}
+
+line2=""
+line3=""
+
+usage_json=$(get_usage 2>/dev/null || true)
+
+if [ -n "$usage_json" ]; then
+  five_util=$(echo "$usage_json" | jq -r '.five_hour.utilization // empty' 2>/dev/null)
+  five_reset=$(echo "$usage_json" | jq -r '.five_hour.resets_at // empty' 2>/dev/null)
+  seven_util=$(echo "$usage_json" | jq -r '.seven_day.utilization // empty' 2>/dev/null)
+  seven_reset=$(echo "$usage_json" | jq -r '.seven_day.resets_at // empty' 2>/dev/null)
+
+  if [ -n "$five_util" ]; then
+    printf -v five_int "%.0f" "$five_util" 2>/dev/null || five_int="${five_util%%.*}"
+    five_color=$(color_for_pct "$five_int")
+    five_bar=$(progress_bar "$five_int")
+    five_reset_str=""
+    if [ -n "$five_reset" ]; then
+      five_reset_str=$(format_5h_reset "$five_reset")
+    fi
+    line2="${five_color}🕐 5h${RESET}  ${five_bar}  ${five_color}${five_int}%${RESET}"
+    if [ -n "$five_reset_str" ]; then
+      line2+="  ${GRAY}${five_reset_str}${RESET}"
+    fi
+  fi
+
+  if [ -n "$seven_util" ]; then
+    printf -v seven_int "%.0f" "$seven_util" 2>/dev/null || seven_int="${seven_util%%.*}"
+    seven_color=$(color_for_pct "$seven_int")
+    seven_bar=$(progress_bar "$seven_int")
+    seven_reset_str=""
+    if [ -n "$seven_reset" ]; then
+      seven_reset_str=$(format_7d_reset "$seven_reset")
+    fi
+    line3="${seven_color}📅 7d${RESET}  ${seven_bar}  ${seven_color}${seven_int}%${RESET}"
+    if [ -n "$seven_reset_str" ]; then
+      line3+="  ${GRAY}${seven_reset_str}${RESET}"
+    fi
+  fi
 fi
 
-# セッションコストが利用可能な場合は追加
-cost_info=""
-if [ -n "$session_cost" ] && [ "$session_cost" != "null" ] && [ "$session_cost" != "empty" ]; then
-    cost_info=" ${GRAY}[\$$session_cost]${NC}"
+# ── Output ──
+printf '%b' "$line1"
+if [ -n "$line2" ]; then
+  printf '\n%b' "$line2"
 fi
-
-# コンテキストバー表示を構築
-context_info="${GRAY}${bar}${NC} ${context_percent}%"
-
-# ステータス行を出力
-echo -e "${BLUE}${dir_name}${NC} ${GRAY}|${NC} ${CYAN}${model_name}${NC} ${GRAY}|${NC} ${context_info}${git_info:+ ${GRAY}|${NC}}${git_info}${cost_info}"
+if [ -n "$line3" ]; then
+  printf '\n%b' "$line3"
+fi
