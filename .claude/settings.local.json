@@ -54,7 +54,8 @@
       "mcp__harness__harness_mem_admin_audit_log",
       "Bash(npm info:*)",
       "Bash(npx:*)",
-      "mcp__harness__harness_mem_record_checkpoint"
+      "mcp__harness__harness_mem_record_checkpoint",
+      "mcp__chrome-devtools__take_snapshot"
     ]
   },
   "enableAllProjectMcpServers": true,
