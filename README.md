@@ -5,9 +5,14 @@
 ## 構成
 
 - `cursor/` - Cursor IDE設定
+- `zsh/` - Zsh設定
 
 ## セットアップ
 
 ### Cursor
 
 ln -s $(pwd)/cursor/settings.json ~/Library/Application\ Support/Cursor/User/settings.json
+
+### Zsh
+
+ln -s $(pwd)/zsh/.zshrc ~/.zshrc
