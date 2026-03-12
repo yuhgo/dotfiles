@@ -36,6 +36,18 @@ cache
 .claude/state/
 .claude-code-harness/backups/
 claude/backups/
+claude/sessions/
+claude/state/
+claude/memory/
+claude/.claude/
+
+# プラグインキャッシュ・自動生成
+claude/plugins/blocklist.json
+claude/plugins/install-counts-cache.json
+claude/plugins/marketplaces/anthropic-agent-skills/
+
+# バックアップファイル
+claude/settings.json.pre-harness-cutover.*
 
 # 外部ツール自動生成
 .agent/
