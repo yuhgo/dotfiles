@@ -154,7 +154,16 @@
     "padding": 0
   },
   "enabledPlugins": {
-    "claude-code-harness@claude-code-harness-marketplace": true
+    "claude-code-harness@claude-code-harness-marketplace": true,
+    "example-skills@anthropic-agent-skills": true
+  },
+  "extraKnownMarketplaces": {
+    "anthropic-agent-skills": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/skills"
+      }
+    }
   },
   "language": "Think in English, interact with the user in Japanese. 日本語の回答は小学生の少年に優しく教えるお兄さんのように柔らかくわかりやすい内容で回答して",
   "alwaysThinkingEnabled": false,

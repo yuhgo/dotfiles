@@ -22,5 +22,13 @@
     },
     "installLocation": "/Users/yamamotoyugo/.claude/plugins/marketplaces/claude-mem-jp",
     "lastUpdated": "2026-02-24T01:09:48.279Z"
+  },
+  "anthropic-agent-skills": {
+    "source": {
+      "source": "github",
+      "repo": "anthropics/skills"
+    },
+    "installLocation": "/Users/yamamotoyugo/.claude/plugins/marketplaces/anthropic-agent-skills",
+    "lastUpdated": "2026-03-12T13:11:09.288Z"
   }
 }

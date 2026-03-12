@@ -30,6 +30,16 @@
         "lastUpdated": "2026-02-24T01:10:01.213Z",
         "gitCommitSha": "29adf603591368ddf92f705f115e878883143460"
       }
+    ],
+    "example-skills@anthropic-agent-skills": [
+      {
+        "scope": "user",
+        "installPath": "/Users/yamamotoyugo/.claude/plugins/cache/anthropic-agent-skills/example-skills/b0cbd3df1533",
+        "version": "b0cbd3df1533",
+        "installedAt": "2026-03-12T13:13:48.574Z",
+        "lastUpdated": "2026-03-12T13:13:48.574Z",
+        "gitCommitSha": "b0cbd3df1533b396d281a6886d5132f623393a9c"
+      }
     ]
   }
 }
