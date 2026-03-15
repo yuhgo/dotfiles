@@ -38,9 +38,9 @@ function claude() {
     fi
   done
   if $skip_permissions; then
-    command claude --dangerously-skip-permissions --model opus "${args[@]}"
+    command claude --dangerously-skip-permissions "${args[@]}"
   else
-    command claude --model opus "${args[@]}"
+    command claude "${args[@]}"
   fi
 }
 alias ccc='cs ~/.claude'

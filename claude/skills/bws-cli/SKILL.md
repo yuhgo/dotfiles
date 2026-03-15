@@ -44,14 +44,48 @@ bws config server-base https://my-server.com --profile prod
 bws secret list --profile prod
 ```
 
+## ⚠️ Claude Code セキュリティルール（必須）
+
+**Claude はシークレットの value を絶対に読んではならない。**
+
+以下のルールを厳守すること：
+
+1. **`bws secret list` や `bws secret get` を直接実行してはならない**（出力に value が含まれるため）
+2. **一覧表示は必ず jq で value を除外してから出力する**
+3. **`bws run` は安全**（value が Claude のコンテキストに入らないため）
+4. **`bws secret create` / `bws secret edit` / `bws secret delete` は安全**（value を書き込むだけで読まないため）
+
+### 安全なコマンドパターン
+
+```bash
+# ✅ 一覧表示（value を除外）
+bws secret list | jq '[.[] | {id, key, organizationId, projectId, creationDate, revisionDate}]'
+
+# ✅ 特定プロジェクトの一覧（value を除外）
+bws secret list <PROJECT_ID> | jq '[.[] | {id, key, organizationId, projectId, creationDate, revisionDate}]'
+
+# ✅ 個別シークレットのメタ情報のみ（value を除外）
+bws secret get <SECRET_ID> | jq '{id, key, organizationId, projectId, creationDate, revisionDate}'
+
+# ✅ bws run による環境変数注入（value は子プロセスにのみ渡される）
+bws run --project-id <PROJECT_ID> -- <COMMAND>
+
+# ❌ 禁止: value が Claude に見える
+bws secret list --output table
+bws secret get <SECRET_ID> --output table
+bws secret list --output env
+bws secret list --output yaml
+bws secret get <SECRET_ID>
+```
+
 ## コマンドリファレンス
 
 ### シークレット管理（bws secret）
 
 | コマンド | 説明 |
 |---------|------|
-| `bws secret list [PROJECT_ID]` | シークレット一覧（プロジェクトIDでフィルタ可） |
-| `bws secret get <SECRET_ID>` | 個別シークレット取得 |
+| `bws secret list [PROJECT_ID] \| jq '[.[] \| {id, key, organizationId, projectId, creationDate, revisionDate}]'` | シークレット一覧（**value除外必須**） |
+| `bws secret get <SECRET_ID> \| jq '{id, key, organizationId, projectId, creationDate, revisionDate}'` | メタ情報取得（**value除外必須**） |
 | `bws secret create <KEY> <VALUE> <PROJECT_ID> --note "note"` | シークレット作成 |
 | `bws secret edit <SECRET_ID> --key <KEY> --value <VALUE> --note <NOTE> --project-id <PID>` | 編集 |
 | `bws secret delete <SECRET_ID> [<ID2> ...]` | 削除（複数指定可） |
@@ -107,11 +141,12 @@ bws run --project-id <PROJECT_ID> -- python manage.py runserver
 | `none` | エラー/警告のみ | スクリプト用 |
 
 ```bash
-# テーブル形式で一覧表示
-bws secret list --output table
+# ⚠️ Claude Code からは以下の形式を直接使わないこと（value が見える）
+# bws secret list --output table
+# bws secret list --output env
 
-# env形式でエクスポート
-bws secret list --output env
+# ✅ Claude Code からはjqでvalue除外して使う
+bws secret list | jq '[.[] | {id, key, organizationId, projectId, creationDate, revisionDate}]'
 ```
 
 ## グローバルオプション
@@ -172,11 +207,11 @@ bws run --project-id <PID> -- npm run dev
 # シークレットを注入してテスト実行
 bws run --project-id <PID> -- npm test
 
-# 特定のシークレット値を取得（デバッグ用）
-bws secret get <SECRET_ID> --output table
+# シークレット一覧確認（value除外）
+bws secret list <PROJECT_ID> | jq '[.[] | {id, key, organizationId, projectId, creationDate, revisionDate}]'
 
-# シークレット一覧確認
-bws secret list <PROJECT_ID> --output table
+# 個別シークレットのメタ情報確認（value除外）
+bws secret get <SECRET_ID> | jq '{id, key, organizationId, projectId, creationDate, revisionDate}'
 ```
 
 ### セキュリティのベストプラクティス

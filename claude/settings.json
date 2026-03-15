@@ -106,6 +106,17 @@
     "defaultMode": "acceptEdits"
   },
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles/claude/scripts/block-bws-raw-read.sh"
+          }
+        ]
+      }
+    ],
     "SessionStart": [
       {
         "matcher": "",
@@ -169,5 +180,6 @@
   "alwaysThinkingEnabled": false,
   "autoUpdatesChannel": "latest",
   "plansDirectory": "./docs/plan",
+  "voiceEnabled": true,
   "skipDangerousModePermissionPrompt": true
 }
