@@ -62,6 +62,14 @@ function ghostty() {
   cursor ~/Library/Application\ Support/com.mitchellh.ghostty/config
 }
 
+# rmをtrashに置き換え（Coding Agent安全対策）
+rm() {
+  while [[ "$1" == -* ]]; do
+    shift
+  done
+  command trash "$@"
+}
+
 alias u='cd ..'
 alias 2root='cd ~'
 alias 2dev='cd /Users/yamamotoyugo/Documents/develop'
