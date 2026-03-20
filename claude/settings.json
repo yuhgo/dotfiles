@@ -110,7 +110,7 @@
       "mcp__supabase__execute_sql"
     ],
     "ask": [],
-    "defaultMode": "acceptEdits"
+    "defaultMode": "auto"
   },
   "hooks": {
     "PreToolUse": [
@@ -157,10 +157,6 @@
           {
             "type": "command",
             "command": "terminal-notifier -title 'Claude Code' -subtitle '確認待ち' -message 'Claude Codeが許可を求めています' -sound Glass -activate com.todesktop.230313mzl4w4u92"
-          },
-          {
-            "type": "command",
-            "command": "bash /Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles/claude/scripts/focus-ghostty.sh"
           }
         ]
       }

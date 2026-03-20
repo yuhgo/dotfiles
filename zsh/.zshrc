@@ -25,20 +25,20 @@ alias c='clear'
 alias cs='cursor'
 alias ca='cursor-agent'
 # claude コマンドのラッパー関数
-# デフォルトで --dangerously-skip-permissions を付与
+# デフォルトで --permission-mode auto を付与
 # --safe オプションで無効化可能
 function claude() {
-  local skip_permissions=true
+  local auto_mode=true
   local args=()
   for arg in "$@"; do
     if [[ "$arg" == "--safe" ]]; then
-      skip_permissions=false
+      auto_mode=false
     else
       args+=("$arg")
     fi
   done
-  if $skip_permissions; then
-    command claude --dangerously-skip-permissions "${args[@]}"
+  if $auto_mode; then
+    command claude --permission-mode auto "${args[@]}"
   else
     command claude "${args[@]}"
   fi
