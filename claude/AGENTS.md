@@ -51,6 +51,12 @@
 | ユーティリティ | `/update-claude-md` | CLAUDE.md を最新状態に更新 |
 | ユーティリティ | `/upgrade-claude` | Homebrew で Claude Code をアップグレード |
 
+## harness-mem（セッション跨ぎ記憶）
+
+→ 詳細: `claude/skills/harness-mem/SKILL.md`
+
+セッション間の学習・記憶永続化デーモン。デーモン管理・トラブルシューティングはスキルを参照。
+
 ## 設定ファイル
 
 | ファイル | 内容 |

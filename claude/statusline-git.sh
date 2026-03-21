@@ -50,6 +50,7 @@ used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
 lines_added=$(echo "$input" | jq -r '.cost.total_lines_added // 0')
 lines_removed=$(echo "$input" | jq -r '.cost.total_lines_removed // 0')
 cwd=$(echo "$input" | jq -r '.workspace.current_dir // ""')
+session_id=$(echo "$input" | jq -r '.session_id // ""')
 
 # Context percentage (integer)
 ctx_int=0
@@ -191,6 +192,84 @@ if [ -n "$usage_json" ]; then
   fi
 fi
 
+# ── Line 4: harness-mem status ──
+line4=""
+hmem_health=$(curl -sf --max-time 1 "http://127.0.0.1:37888/health" 2>/dev/null || true)
+if [ -n "$hmem_health" ]; then
+  hmem_ok=$(echo "$hmem_health" | jq -r '.ok // false' 2>/dev/null)
+  if [ "$hmem_ok" = "true" ]; then
+    # Fetch latest observation for current session
+    hmem_title=""
+    hmem_ago=""
+    hmem_created=""
+    hmem_has_session_data=false
+
+    if [ -n "$session_id" ]; then
+      # Search current session to get latest_interaction from meta
+      hmem_search=$(curl -sf --max-time 1 -X POST "http://127.0.0.1:37888/v1/search" \
+        -H "Content-Type: application/json" \
+        -d "{\"query\":\"*\",\"session_id\":\"${session_id}\",\"limit\":1}" 2>/dev/null || true)
+      if [ -n "$hmem_search" ]; then
+        hmem_count=$(echo "$hmem_search" | jq -r '.meta.count // 0' 2>/dev/null)
+        if [ "$hmem_count" -gt 0 ] 2>/dev/null; then
+          hmem_has_session_data=true
+          # Use latest_interaction.response for the most recent entry
+          hmem_title=$(echo "$hmem_search" | jq -r '.meta.latest_interaction.response.title // .items[0].title // ""' 2>/dev/null)
+          hmem_created=$(echo "$hmem_search" | jq -r '.meta.latest_interaction.response.created_at // .items[0].created_at // ""' 2>/dev/null)
+          hmem_content=""
+          # For generic titles, use content summary instead
+          if [ "$hmem_title" = "assistant_response" ] || [ "$hmem_title" = "user_prompt" ]; then
+            hmem_content=$(echo "$hmem_search" | jq -r '.meta.latest_interaction.response.content // .items[0].content // ""' 2>/dev/null)
+            if [ -n "$hmem_content" ]; then
+              hmem_title=$(printf '%s' "$hmem_content" | sed 's/^#* *//' | sed 's/\*\*//g' | sed 's/`//g' | tr '\n' ' ' | sed 's/  */ /g' | sed 's/^ *//')
+            fi
+          fi
+        fi
+      fi
+    fi
+
+    # Calculate time ago
+    if [ -n "$hmem_created" ]; then
+      hmem_epoch=$(TZ=UTC date -j -f "%Y-%m-%dT%H:%M:%S" "${hmem_created%%.*}" +%s 2>/dev/null || true)
+      if [ -n "$hmem_epoch" ]; then
+        now_epoch=$(date +%s)
+        diff_sec=$(( now_epoch - hmem_epoch ))
+        if (( diff_sec < 60 )); then
+          hmem_ago="${diff_sec}s ago"
+        elif (( diff_sec < 3600 )); then
+          hmem_ago="$(( diff_sec / 60 ))m ago"
+        elif (( diff_sec < 86400 )); then
+          hmem_ago="$(( diff_sec / 3600 ))h ago"
+        else
+          hmem_ago="$(( diff_sec / 86400 ))d ago"
+        fi
+      fi
+    fi
+
+    # Truncate title to 40 chars
+    if [ -n "$hmem_title" ] && [ ${#hmem_title} -gt 40 ]; then
+      hmem_title="${hmem_title:0:39}…"
+    fi
+
+    # Build line
+    line4="${GREEN}🧠 mem ✓${RESET}"
+    if [ "$hmem_has_session_data" = true ]; then
+      if [ -n "$hmem_title" ]; then
+        line4+="  ${CYAN}${hmem_title}${RESET}"
+      fi
+      if [ -n "$hmem_ago" ]; then
+        line4+="  ${GRAY}${hmem_ago}${RESET}"
+      fi
+    else
+      line4+="  ${YELLOW}no captures in current session${RESET}"
+    fi
+  else
+    line4="${RED}🧠 mem ✗ unhealthy${RESET}"
+  fi
+else
+  line4="${RED}🧠 mem ✗ offline${RESET}"
+fi
+
 # ── Output ──
 printf '%b' "$line1"
 if [ -n "$line2" ]; then
@@ -198,4 +277,7 @@ if [ -n "$line2" ]; then
 fi
 if [ -n "$line3" ]; then
   printf '\n%b' "$line3"
+fi
+if [ -n "$line4" ]; then
+  printf '\n%b' "$line4"
 fi

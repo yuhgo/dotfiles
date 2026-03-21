@@ -55,7 +55,9 @@
       "Bash(npm info:*)",
       "Bash(npx:*)",
       "mcp__harness__harness_mem_record_checkpoint",
-      "mcp__chrome-devtools__take_snapshot"
+      "mcp__chrome-devtools__take_snapshot",
+      "Bash(claude marketplace:*)",
+      "mcp__harness__harness_mem_search"
     ]
   },
   "enableAllProjectMcpServers": true,
