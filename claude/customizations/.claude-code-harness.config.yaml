@@ -1,0 +1,38 @@
+# Claude Code Harness Configuration
+# https://github.com/Chachamaru127/claude-code-harness
+
+# Review settings
+review:
+  # Codex second opinion (requires Codex MCP server)
+  codex:
+    enabled: true
+    timeout_ms: 60000 # Codex MCP timeout (ms)
+
+  # Default mode: "default" (4 perspectives) or "codex" (parallel MCP execution)
+  mode: default
+
+  # Cursor CLI second opinion (after Claude review)
+  cursor:
+    enabled: true
+    model: composer-2-fast
+    timeout_ms: 120000
+
+# Breezing settings (Agent Teams)
+breezing:
+  # Default parallel implementer count
+  default_parallel: 2
+  # Maximum retake attempts before user escalation
+  max_retakes: 3
+  # State file path
+  state_file: .claude/state/breezing-active.json
+
+# Cleanup thresholds
+cleanup:
+  plans:
+    archive_after_days: 7
+    max_lines: 200
+  session_log:
+    archive_after_days: 30
+    max_lines: 500
+  claude_md:
+    max_lines: 100

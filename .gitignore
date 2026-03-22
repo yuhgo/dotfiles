@@ -30,6 +30,9 @@ cache
 /claude/plugins/marketplaces/thedotmack
 /claude/plugins/marketplaces/claude-code-harness-marketplace
 
+# セッション環境データ（一時的）
+claude/session-env/
+
 # Harness ランタイムデータ
 .claude/memory/
 .claude/sessions/
