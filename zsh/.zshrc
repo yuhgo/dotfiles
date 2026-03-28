@@ -188,3 +188,6 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # マシン固有の設定（秘密情報など）を読み込む
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
+
+# Vite+ bin (https://viteplus.dev)
+. "$HOME/.vite-plus/env"

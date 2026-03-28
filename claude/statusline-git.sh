@@ -1,47 +1,90 @@
 #!/usr/bin/env bash
 # Claude Code Statusline
-# 3-line display: session info, 5h usage, 7d usage
-# Colors: Kanagawa Wave palette
+# 4-line display: session info, 5h usage, 7d usage, harness-mem
+# Colors: TrueColor gradient (green → yellow → red)
 
 set -euo pipefail
 
 input=$(cat)
 
-# ── Colors (Kanagawa Wave) ──
-GREEN="\033[38;2;152;187;108m"   # springGreen #98BB6C
-YELLOW="\033[38;2;230;195;132m"  # carpYellow  #E6C384
-RED="\033[38;2;255;93;98m"       # peachRed    #FF5D62
+# ── Colors (Kanagawa Wave base) ──
 GRAY="\033[38;2;114;113;105m"    # fujiGray    #727169
 BLUE="\033[38;2;126;156;216m"    # crystalBlue #7E9CD8
 CYAN="\033[38;2;127;180;202m"    # springBlue  #7FB4CA
 ORANGE="\033[38;2;255;160;102m"  # surimiOrange #FFA066
+GREEN="\033[38;2;152;187;108m"   # springGreen #98BB6C
+YELLOW="\033[38;2;230;195;132m"  # carpYellow  #E6C384
+RED="\033[38;2;255;93;98m"       # peachRed    #FF5D62
 RESET="\033[0m"
 
-color_for_pct() {
+# ── TrueColor gradient (springGreen → yellow → red) ──
+# 0%: rgb(152,187,108) = Kanagawa springGreen (same as +lines color)
+# 50%: rgb(255,187,108) = warm yellow
+# 100%: rgb(255,0,60) = deep red
+gradient_color() {
   local pct=$1
-  if (( pct >= 80 )); then
-    printf '%s' "$RED"
-  elif (( pct >= 50 )); then
-    printf '%s' "$YELLOW"
+  if (( pct < 50 )); then
+    # r: 152 → 255 as pct goes 0 → 50
+    local r=$(( 152 + pct * 103 / 50 ))
+    printf '\033[38;2;%d;187;108m' "$r"
   else
-    printf '%s' "$BLUE"
+    # g: 187 → 0, b: 108 → 60 as pct goes 50 → 100
+    local g=$(( 187 - (pct - 50) * 187 / 50 ))
+    local b=$(( 108 - (pct - 50) * 48 / 50 ))
+    (( g < 0 )) && g=0
+    (( b < 60 )) && b=60
+    printf '\033[38;2;255;%d;%dm' "$g" "$b"
   fi
 }
 
-# ── Progress bar (10 segments) ──
+# ── Fine Bar + Gradient (█ filled, ░ dimmed dot pattern for empty) ──
 progress_bar() {
   local pct=$1
-  local filled=$(( pct / 10 ))
-  local empty=$(( 10 - filled ))
-  local color
-  color=$(color_for_pct "$pct")
+  local width=10
+  (( pct < 0 )) && pct=0
+  (( pct > 100 )) && pct=100
+
+  # Same logic as Python reference: filled = pct * width / 100
+  local filled_x1000=$(( pct * width * 10 ))
+  local full=$(( filled_x1000 / 1000 ))
+  local frac_part=$(( filled_x1000 % 1000 ))
+  local frac=$(( frac_part * 8 / 1000 ))
+
+  # Gradient RGB (same as gradient_color)
+  local r g b
+  if (( pct < 50 )); then
+    r=$(( 152 + pct * 103 / 50 ))
+    g=187; b=108
+  else
+    r=255
+    g=$(( 187 - (pct - 50) * 187 / 50 ))
+    b=$(( 108 - (pct - 50) * 48 / 50 ))
+    (( g < 0 )) && g=0
+    (( b < 60 )) && b=60
+  fi
+
+  local blocks=(" " "▏" "▎" "▍" "▌" "▋" "▊" "▉" "█")
   local bar=""
-  bar+=$(printf '%b' "$color")
-  for ((i=0; i<filled; i++)); do bar+="▆"; done
-  bar+=$(printf '%b' "$GRAY")
-  for ((i=0; i<empty; i++)); do bar+="▆"; done
-  bar+=$(printf '%b' "$RESET")
-  printf '%s' "$bar"
+
+  # Filled: █ with gradient foreground
+  bar+="\033[38;2;${r};${g};${b}m"
+  for ((i=0; i<full; i++)); do bar+="█"; done
+
+  # Partial + empty (only if not fully filled)
+  if (( full < width )); then
+    if (( frac > 0 )); then
+      bar+="${blocks[$frac]}"
+      local empty_count=$(( width - full - 1 ))
+    else
+      local empty_count=$(( width - full ))
+    fi
+    # Empty: ░ with dimmed gradient color (1/3 brightness)
+    bar+="\033[38;2;$((r/3));$((g/3));$((b/3))m"
+    for ((i=0; i<empty_count; i++)); do bar+="░"; done
+  fi
+
+  bar+="\033[0m"
+  printf '%b' "$bar"
 }
 
 # ── Line 1: Session info ──
@@ -57,7 +100,7 @@ ctx_int=0
 if [ -n "$used_pct" ]; then
   printf -v ctx_int "%.0f" "$used_pct" 2>/dev/null || ctx_int="${used_pct%%.*}"
 fi
-ctx_color=$(color_for_pct "$ctx_int")
+ctx_color=$(gradient_color "$ctx_int")
 
 # Git branch & repo name
 git_branch=""
@@ -77,77 +120,22 @@ if [ -n "$git_branch" ]; then
   line1+="${sep}🔀 ${ORANGE}${git_branch}${RESET}"
 fi
 
-# ── Usage API (OAuth, cached 360s) ──
-CACHE_FILE="/tmp/claude-usage-cache.json"
-CACHE_TTL=360
-
-fetch_usage() {
-  # Get OAuth token from macOS Keychain
-  local token
-  token=$(security find-generic-password -s "Claude Code-credentials" -w 2>/dev/null || true)
-  if [ -z "$token" ]; then
-    return 1
-  fi
-
-  # Token is stored as JSON with nested structure
-  local access_token
-  access_token=$(echo "$token" | jq -r '.claudeAiOauth.accessToken // .accessToken // .access_token // empty' 2>/dev/null || true)
-  if [ -z "$access_token" ]; then
-    return 1
-  fi
-
-  local response
-  response=$(curl -sf --max-time 5 \
-    -H "Authorization: Bearer ${access_token}" \
-    -H "anthropic-beta: oauth-2025-04-20" \
-    "https://api.anthropic.com/api/oauth/usage" 2>/dev/null) || return 1
-
-  # Write cache with timestamp
-  local now
-  now=$(date +%s)
-  echo "$response" | jq --arg ts "$now" '. + {cached_at: ($ts | tonumber)}' > "$CACHE_FILE" 2>/dev/null
-  echo "$response"
-}
-
-get_usage() {
-  local now
-  now=$(date +%s)
-
-  # Check cache
-  if [ -f "$CACHE_FILE" ]; then
-    local cached_at
-    cached_at=$(jq -r '.cached_at // 0' "$CACHE_FILE" 2>/dev/null || echo "0")
-    local age=$(( now - cached_at ))
-    if (( age < CACHE_TTL )); then
-      jq -r 'del(.cached_at)' "$CACHE_FILE" 2>/dev/null
-      return 0
-    fi
-  fi
-
-  fetch_usage
-}
-
-# Convert ISO 8601 to epoch seconds (macOS compatible)
-iso_to_epoch() {
-  local iso_time=$1
-  local stripped="${iso_time%%.*}"
-  TZ=UTC date -j -f "%Y-%m-%dT%H:%M:%S" "$stripped" +%s 2>/dev/null || echo ""
-}
+# ── Rate limits from stdin ──
+five_pct=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty' 2>/dev/null)
+five_reset_epoch=$(echo "$input" | jq -r '.rate_limits.five_hour.resets_at // empty' 2>/dev/null)
+seven_pct=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty' 2>/dev/null)
+seven_reset_epoch=$(echo "$input" | jq -r '.rate_limits.seven_day.resets_at // empty' 2>/dev/null)
 
 # Format reset time for 5h window: "Resets 5pm (Asia/Tokyo)"
 format_5h_reset() {
-  local iso_time=$1
-  local epoch
-  epoch=$(iso_to_epoch "$iso_time")
+  local epoch=$1
   [ -z "$epoch" ] && return
   LC_ALL=en_US.UTF-8 TZ="Asia/Tokyo" date -r "$epoch" +"Resets %-l%p (Asia/Tokyo)" 2>/dev/null | sed 's/AM/am/;s/PM/pm/'
 }
 
 # Format reset time for 7d window: "Resets Mar 6 at 12pm (Asia/Tokyo)"
 format_7d_reset() {
-  local iso_time=$1
-  local epoch
-  epoch=$(iso_to_epoch "$iso_time")
+  local epoch=$1
   [ -z "$epoch" ] && return
   LC_ALL=en_US.UTF-8 TZ="Asia/Tokyo" date -r "$epoch" +"Resets %b %-d at %-l%p (Asia/Tokyo)" 2>/dev/null | sed 's/AM/am/;s/PM/pm/'
 }
@@ -155,40 +143,31 @@ format_7d_reset() {
 line2=""
 line3=""
 
-usage_json=$(get_usage 2>/dev/null || true)
-
-if [ -n "$usage_json" ]; then
-  five_util=$(echo "$usage_json" | jq -r '.five_hour.utilization // empty' 2>/dev/null)
-  five_reset=$(echo "$usage_json" | jq -r '.five_hour.resets_at // empty' 2>/dev/null)
-  seven_util=$(echo "$usage_json" | jq -r '.seven_day.utilization // empty' 2>/dev/null)
-  seven_reset=$(echo "$usage_json" | jq -r '.seven_day.resets_at // empty' 2>/dev/null)
-
-  if [ -n "$five_util" ]; then
-    printf -v five_int "%.0f" "$five_util" 2>/dev/null || five_int="${five_util%%.*}"
-    five_color=$(color_for_pct "$five_int")
-    five_bar=$(progress_bar "$five_int")
-    five_reset_str=""
-    if [ -n "$five_reset" ]; then
-      five_reset_str=$(format_5h_reset "$five_reset")
-    fi
-    line2="${five_color}🕐 5h${RESET}  ${five_bar}  ${five_color}${five_int}%${RESET}"
-    if [ -n "$five_reset_str" ]; then
-      line2+="  ${GRAY}${five_reset_str}${RESET}"
-    fi
+if [ -n "$five_pct" ]; then
+  printf -v five_int "%.0f" "$five_pct" 2>/dev/null || five_int="${five_pct%%.*}"
+  five_color=$(gradient_color "$five_int")
+  five_bar=$(progress_bar "$five_int")
+  five_reset_str=""
+  if [ -n "$five_reset_epoch" ]; then
+    five_reset_str=$(format_5h_reset "$five_reset_epoch")
   fi
+  line2="${five_color}🕐 5h${RESET}  ${five_bar}  ${five_color}${five_int}%${RESET}"
+  if [ -n "$five_reset_str" ]; then
+    line2+="  ${GRAY}${five_reset_str}${RESET}"
+  fi
+fi
 
-  if [ -n "$seven_util" ]; then
-    printf -v seven_int "%.0f" "$seven_util" 2>/dev/null || seven_int="${seven_util%%.*}"
-    seven_color=$(color_for_pct "$seven_int")
-    seven_bar=$(progress_bar "$seven_int")
-    seven_reset_str=""
-    if [ -n "$seven_reset" ]; then
-      seven_reset_str=$(format_7d_reset "$seven_reset")
-    fi
-    line3="${seven_color}📅 7d${RESET}  ${seven_bar}  ${seven_color}${seven_int}%${RESET}"
-    if [ -n "$seven_reset_str" ]; then
-      line3+="  ${GRAY}${seven_reset_str}${RESET}"
-    fi
+if [ -n "$seven_pct" ]; then
+  printf -v seven_int "%.0f" "$seven_pct" 2>/dev/null || seven_int="${seven_pct%%.*}"
+  seven_color=$(gradient_color "$seven_int")
+  seven_bar=$(progress_bar "$seven_int")
+  seven_reset_str=""
+  if [ -n "$seven_reset_epoch" ]; then
+    seven_reset_str=$(format_7d_reset "$seven_reset_epoch")
+  fi
+  line3="${seven_color}📅 7d${RESET}  ${seven_bar}  ${seven_color}${seven_int}%${RESET}"
+  if [ -n "$seven_reset_str" ]; then
+    line3+="  ${GRAY}${seven_reset_str}${RESET}"
   fi
 fi
 
