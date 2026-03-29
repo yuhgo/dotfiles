@@ -141,11 +141,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "terminal-notifier -title 'Claude Code' -subtitle 'タスク完了' -message 'Claude Codeがタスクを完了しました' -sound Glass"
-          },
-          {
-            "type": "command",
-            "command": "bash /Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles/claude/scripts/focus-ghostty.sh"
+            "command": "cmux notify 'Claude Codeがタスクを完了しました'"
           }
         ]
       }
