@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 // Claude Code Statusline (TypeScript + Bun)
-// 4-line display: session info, 5h usage, 7d usage, harness-mem
+// 5-line dashboard: identity/location, context bar, 5h bar, 7d bar, harness-mem
 // Colors: TrueColor gradient (green → yellow → red)
 
 // ── Types ──
@@ -19,7 +19,7 @@ interface StatusLineInput {
 
 // ── Colors (Kanagawa Wave base) ──
 
-const GRAY = "\x1b[38;2;114;113;105m"; // fujiGray    #727169
+const GRAY = "\x1b[38;2;114;113;105m"; // fujiGray    #727169  (also used for │ separators)
 const BLUE = "\x1b[38;2;126;156;216m"; // crystalBlue #7E9CD8
 const CYAN = "\x1b[38;2;127;180;202m"; // springBlue  #7FB4CA
 const ORANGE = "\x1b[38;2;255;160;102m"; // surimiOrange #FFA066
@@ -262,61 +262,69 @@ async function main() {
     getHarnessMem(sessionId),
   ]);
 
-  const sep = `${GRAY} | ${RESET}`;
+  const sep = `${GRAY} │ ${RESET}`;
   const ctxColor = gradientColor(ctxInt);
 
-  // ── Line 1: Session info ──
-  let line1 = `🤖 ${CYAN}${model}${RESET}${sep}${ctxColor}📊 ${ctxInt}%${RESET}${sep}✏️ ${GREEN}+${linesAdded}${RESET}/${RED}-${linesRemoved}${RESET}`;
+  // ── Line 1: Model, repo/branch, diff ──
+  let line1 = `🤖 ${CYAN}${model}${RESET}`;
   if (gitInfo.repo) {
     line1 += `${sep}📁 ${BLUE}${gitInfo.repo}${RESET}`;
-  }
-  if (gitInfo.branch) {
+    if (gitInfo.branch) {
+      line1 += ` ${GRAY}/${RESET} ${ORANGE}${gitInfo.branch}${RESET}`;
+    }
+  } else if (gitInfo.branch) {
     line1 += `${sep}🔀 ${ORANGE}${gitInfo.branch}${RESET}`;
   }
+  line1 += `${sep}✏️ ${GREEN}+${linesAdded}${RESET}/${RED}-${linesRemoved}${RESET}`;
 
-  // ── Line 2: 5h rate limit ──
-  let line2 = "";
+  // ── Line 2: Context window bar ──
+  const ctxBar = progressBar(ctxInt);
+  const line2 = `${ctxColor}📊 ctx${RESET} ${ctxBar}  ${ctxColor}${ctxInt}%${RESET}`;
+
+  // ── Line 3: 5h rate limit ──
+  let line3 = "";
   if (fivePct != null) {
     const fi = Math.round(fivePct);
     const fiveColor = gradientColor(fi);
     const fiveBar = progressBar(fi);
-    line2 = `${fiveColor}🕐 5h${RESET}  ${fiveBar}  ${fiveColor}${fi}%${RESET}`;
+    line3 = `${fiveColor}🕐 5h ${RESET} ${fiveBar}  ${fiveColor}${fi}%${RESET}`;
     if (fiveResetEpoch) {
-      line2 += `  ${GRAY}${format5hReset(fiveResetEpoch)}${RESET}`;
+      line3 += `  ${GRAY}${format5hReset(fiveResetEpoch)}${RESET}`;
     }
   }
 
-  // ── Line 3: 7d rate limit ──
-  let line3 = "";
+  // ── Line 4: 7d rate limit ──
+  let line4 = "";
   if (sevenPct != null) {
     const si = Math.round(sevenPct);
     const sevenColor = gradientColor(si);
     const sevenBar = progressBar(si);
-    line3 = `${sevenColor}📅 7d${RESET}  ${sevenBar}  ${sevenColor}${si}%${RESET}`;
+    line4 = `${sevenColor}📅 7d ${RESET} ${sevenBar}  ${sevenColor}${si}%${RESET}`;
     if (sevenResetEpoch) {
-      line3 += `  ${GRAY}${format7dReset(sevenResetEpoch)}${RESET}`;
+      line4 += `  ${GRAY}${format7dReset(sevenResetEpoch)}${RESET}`;
     }
   }
 
-  // ── Line 4: harness-mem status ──
-  let line4 = "";
+  // ── Line 5: harness-mem status ──
+  let line5 = "";
   if (hmem.ok) {
-    line4 = `${GREEN}🧠 mem ✓${RESET}`;
+    line5 = `${GREEN}🧠 mem ✓${RESET}`;
     if (hmem.hasSessionData) {
-      if (hmem.title) line4 += `  ${CYAN}${hmem.title}${RESET}`;
-      if (hmem.ago) line4 += `  ${GRAY}${hmem.ago}${RESET}`;
+      if (hmem.title) line5 += `  ${CYAN}${hmem.title}${RESET}`;
+      if (hmem.ago) line5 += `  ${GRAY}${hmem.ago}${RESET}`;
     } else {
-      line4 += `  ${YELLOW}no captures in current session${RESET}`;
+      line5 += `  ${YELLOW}no captures in current session${RESET}`;
     }
   } else {
-    line4 = `${RED}🧠 mem ✗ offline${RESET}`;
+    line5 = `${RED}🧠 mem ✗ offline${RESET}`;
   }
 
   // ── Output ──
   let output = line1;
-  if (line2) output += "\n" + line2;
+  output += "\n" + line2;
   if (line3) output += "\n" + line3;
   if (line4) output += "\n" + line4;
+  if (line5) output += "\n" + line5;
 
   process.stdout.write(output);
 }
