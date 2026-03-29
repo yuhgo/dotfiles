@@ -57,7 +57,11 @@
       "mcp__harness__harness_mem_record_checkpoint",
       "mcp__chrome-devtools__take_snapshot",
       "Bash(claude marketplace:*)",
-      "mcp__harness__harness_mem_search"
+      "mcp__harness__harness_mem_search",
+      "mcp__harness__harness_mem_session_thread",
+      "mcp__context7__query-docs",
+      "Skill(git-pr)",
+      "WebFetch(domain:nyosegawa.com)"
     ]
   },
   "enableAllProjectMcpServers": true,

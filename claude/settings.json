@@ -164,7 +164,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "bash /Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles/claude/statusline-git.sh",
+    "command": "bun run /Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles/claude/statusline.ts",
     "padding": 0
   },
   "enabledPlugins": {
@@ -181,6 +181,7 @@
   },
   "language": "Think in English, interact with the user in Japanese. 日本語の回答は小学生の少年に優しく教えるお兄さんのように柔らかくわかりやすい内容で回答して",
   "alwaysThinkingEnabled": false,
+  "effortLevel": "medium",
   "autoUpdatesChannel": "latest",
   "plansDirectory": "./docs/plan",
   "voiceEnabled": true,
