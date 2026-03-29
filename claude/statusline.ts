@@ -278,8 +278,11 @@ async function main() {
   line1 += `${sep}✏️ ${GREEN}+${linesAdded}${RESET}/${RED}-${linesRemoved}${RESET}`;
 
   // ── Line 2: Context window bar ──
-  const ctxBar = progressBar(ctxInt);
-  const line2 = `${ctxColor}📊 ctx${RESET} ${ctxBar}  ${ctxColor}${ctxInt}%${RESET}`;
+  let line2 = "";
+  if (ctxInt > 0) {
+    const ctxBar = progressBar(ctxInt);
+    line2 = `${ctxColor}📊 ctx${RESET} ${ctxBar}  ${ctxColor}${ctxInt}%${RESET}`;
+  }
 
   // ── Line 3: 5h rate limit ──
   let line3 = "";
@@ -321,7 +324,7 @@ async function main() {
 
   // ── Output ──
   let output = line1;
-  output += "\n" + line2;
+  if (line2) output += "\n" + line2;
   if (line3) output += "\n" + line3;
   if (line4) output += "\n" + line4;
   if (line5) output += "\n" + line5;
