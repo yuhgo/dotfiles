@@ -38,9 +38,9 @@ function claude() {
     fi
   done
   if $auto_mode; then
-    command claude --permission-mode auto "${args[@]}"
+    CLAUDE_CODE_NO_FLICKER=1 command claude --permission-mode auto "${args[@]}"
   else
-    command claude "${args[@]}"
+    CLAUDE_CODE_NO_FLICKER=1 command claude "${args[@]}"
   fi
 }
 alias ccc='cs ~/.claude'

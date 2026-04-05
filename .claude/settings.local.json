@@ -61,7 +61,11 @@
       "mcp__harness__harness_mem_session_thread",
       "mcp__context7__query-docs",
       "Skill(git-pr)",
-      "WebFetch(domain:nyosegawa.com)"
+      "WebFetch(domain:nyosegawa.com)",
+      "WebFetch(domain:cmux.com)",
+      "WebFetch(domain:manaflow-ai-cmux.mintlify.app)",
+      "Skill(daily-report-tsv)",
+      "WebFetch(domain:skills.sh)"
     ]
   },
   "enableAllProjectMcpServers": true,
