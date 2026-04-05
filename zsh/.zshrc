@@ -27,17 +27,23 @@ alias ca='cursor-agent'
 # claude コマンドのラッパー関数
 # デフォルトで --permission-mode auto を付与
 # --safe オプションで無効化可能
+# -dsp オプションで --dangerously-skip-permissions を付与
 function claude() {
   local auto_mode=true
+  local dsp_mode=false
   local args=()
   for arg in "$@"; do
     if [[ "$arg" == "--safe" ]]; then
       auto_mode=false
+    elif [[ "$arg" == "-dsp" ]]; then
+      dsp_mode=true
     else
       args+=("$arg")
     fi
   done
-  if $auto_mode; then
+  if $dsp_mode; then
+    CLAUDE_CODE_NO_FLICKER=1 command claude --dangerously-skip-permissions "${args[@]}"
+  elif $auto_mode; then
     CLAUDE_CODE_NO_FLICKER=1 command claude --permission-mode auto "${args[@]}"
   else
     CLAUDE_CODE_NO_FLICKER=1 command claude "${args[@]}"
