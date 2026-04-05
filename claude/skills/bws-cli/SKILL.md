@@ -1,48 +1,39 @@
 ---
 name: bws-cli
-description: Bitwarden Secrets Manager CLI（bws）のコマンドリファレンスと、Claude Codeとの安全な連携ワークフロー。環境変数の設定やシークレット情報の読み書きには極力 bws を使用すること。.envファイルへの直書きやハードコードよりも bws run による環境変数注入や bws secret get による取得を優先する。「bws」「secrets manager」「シークレット管理」「bws run」「bws secret」「bws project」「BWS_ACCESS_TOKEN」「環境変数」「APIキー」「トークン管理」「シークレット取得」などBWS CLI関連のコマンドや、環境変数・シークレット情報の読み書きに関する話題が会話に出てきた場合もトリガーする。既存の bitwarden-cli スキル（bw コマンド）とは別ツール。
+description: 環境変数・シークレット管理の総合ガイド。Bitwarden Secrets Manager CLI（bws）を中心に、ローカル開発・CI/CD・本番環境でのシークレットの安全な取り扱いを定義する。.envファイルへの直書きやハードコードよりも bws run による環境変数注入や bws secret get による取得を優先する。本番環境へのシークレット設定時は、各プラットフォームのCLI（vercel env, wrangler secret, aws ssm, gcloud secrets）と bws を組み合わせて使用する。「bws」「secrets manager」「シークレット管理」「bws run」「bws secret」「bws project」「BWS_ACCESS_TOKEN」「環境変数」「APIキー」「トークン管理」「シークレット取得」「.env」「env」「本番シークレット」「CI/CDシークレット」「vercel env」「wrangler secret」「aws ssm」「gcloud secrets」などの話題が会話に出てきた場合にトリガーする。既存の bitwarden-cli スキル（bw コマンド）とは別ツール。
 allowed-tools: Bash, Read
 ---
 
-# BWS CLI スキル（Bitwarden Secrets Manager CLI）
+# 環境変数・シークレット管理ガイド
 
-`bws` コマンドによるシークレット管理のリファレンス。
-`bw`（Password Manager CLI）とは別のツールで、マシンアカウント向けに設計されている。
+シークレット（APIキーなど）の安全な取り扱い方を定義するスキル。
+ローカル開発では **Bitwarden Secrets Manager CLI（`bws`）** を使い、本番環境では**各プラットフォームのシークレットストア**を使う。
 
-## bw との違い
+## 設計思想：なぜ `.env` ではなく `bws` を使うのか
 
-| 項目 | `bw`（Password Manager） | `bws`（Secrets Manager） |
-|------|--------------------------|--------------------------|
-| 用途 | 個人のパスワード管理 | マシン/CI/自動化向けシークレット管理 |
-| 認証 | マスターパスワード + セッション | アクセストークン（期限付き可） |
-| 権限 | ボールト全体 | プロジェクト単位で制限可能 |
-| Claude Code 連携 | 不向き（広すぎる権限） | 最適（最小権限で運用可能） |
+AI エージェント（Claude Code など）は `.env` ファイルを `Read` ツールで読み取れてしまう。
+`bws run` を使えば：
 
-## 認証
+- シークレットが**ファイルとして存在しない**ため、ファイル読み取りで漏洩しない
+- **子プロセスの環境変数にだけ注入**されるため、AI エージェントから直接アクセスしにくい
+- コマンド終了後は環境変数も消えるため、**残留リスクがない**
 
-### アクセストークン設定
+### 基本方針
 
-```bash
-# 環境変数で設定（推奨）
-export BWS_ACCESS_TOKEN=0.48c78342-1635-48a6-accd-afbe01336365.C0tMmQqHnAp1h0gL...
+- `.env` ファイルにシークレットをべた書きしない
+- ローカル開発では **`bws run`** で環境変数を注入する
+- 本番環境では**各プラットフォームのシークレットストア**を使う
+- `.env` / `.env.*` は `.gitignore` 済み（`.env.example` のみ追跡対象）
 
-# コマンドごとにインラインで指定
-bws secret list --access-token <TOKEN>
-```
+### セキュリティリスクと対策
 
-- Bitwarden Secrets Manager の Web UI で**組織 → プロジェクト → マシンアカウント**を作成
-- マシンアカウントに対して**プロジェクト単位で権限を付与**できる
-- アクセストークンには**有効期限を設定可能**（漏洩時の被害を限定）
-
-### プロファイル
-
-```bash
-# プロファイル別にサーバー設定
-bws config server-base https://my-server.com --profile prod
-
-# プロファイル指定でコマンド実行
-bws secret list --profile prod
-```
+| リスク | 対策 |
+|--------|------|
+| `.env` ファイルへのべた書き | `.gitignore` 済み + `bws run` を使う |
+| AI エージェントによるファイル読み取り | `bws run` でファイルに書かない |
+| AI エージェントによる `echo $VAR` 実行 | Claude Code 自体のプロセスにはキーを渡さず、`bws run` の子プロセスにだけ渡す |
+| Git への誤コミット | `.gitignore` で `.env` / `.env.*` を除外済み |
+| 本番シークレットの漏洩 | 各プラットフォームの暗号化ストレージに保存。コードやファイルに残らない |
 
 ## ⚠️ Claude Code セキュリティルール（必須）
 
@@ -78,7 +69,96 @@ bws secret list --output yaml
 bws secret get <SECRET_ID>
 ```
 
-## コマンドリファレンス
+## 環境別ワークフロー
+
+### ローカル開発
+
+```bash
+# bws run で環境変数を注入してコマンド実行
+bws run --project-id <PID> -- npm run dev
+bws run --project-id <PID> -- npm test
+bws run --project-id <PID> -- python manage.py runserver
+bws run --project-id <PID> -- 'docker compose up'
+```
+
+こうするとシークレットがプロセスの環境変数として渡される。ファイルには一切書き込まれない。
+
+### CI/CD
+
+CI 環境では `BWS_ACCESS_TOKEN` を CI のシークレットストアに登録し、`bws run` で注入する。
+
+```yaml
+# 例: GitHub Actions
+env:
+  BWS_ACCESS_TOKEN: ${{ secrets.BWS_ACCESS_TOKEN }}
+steps:
+  - run: bws run --project-id <PID> -- npm test
+```
+
+### 本番環境へのシークレット設定
+
+本番環境では各プラットフォームのシークレットストアを使用する。
+**bws からシークレットを取得し、各プラットフォームの CLI でセットする**のが基本パターン。
+
+#### 手順
+
+1. `bws` でシークレットのメタ情報を確認（value は見ない）
+2. 各プラットフォームの CLI で対話的にシークレットを登録（値は手動入力、または `bws run` 経由で注入）
+
+#### プラットフォーム別コマンド
+
+**Vercel**:
+```bash
+# 対話的に値を入力
+vercel env add <KEY_NAME> production
+
+# bws run 経由で自動設定
+bws run --project-id <PID> -- sh -c 'echo "$KEY_NAME" | vercel env add KEY_NAME production'
+```
+
+**Cloudflare Workers**:
+```bash
+# 対話的に値を入力
+npx wrangler secret put <KEY_NAME>
+
+# bws run 経由で自動設定
+bws run --project-id <PID> -- sh -c 'echo "$KEY_NAME" | npx wrangler secret put KEY_NAME'
+```
+
+**AWS Systems Manager Parameter Store**:
+```bash
+# bws run 経由で自動設定
+bws run --project-id <PID> -- sh -c \
+  'aws ssm put-parameter --name "/app/KEY_NAME" --value "$KEY_NAME" --type SecureString --overwrite'
+```
+
+**Google Cloud Secret Manager**:
+```bash
+# bws run 経由で自動設定
+bws run --project-id <PID> -- sh -c \
+  'echo -n "$KEY_NAME" | gcloud secrets create KEY_NAME --data-file=-'
+```
+
+#### シークレットの確認（値は表示されない）
+
+```bash
+vercel env ls                           # Vercel
+npx wrangler secret list                # Cloudflare Workers
+aws ssm get-parameters-by-path --path "/app/" --query "Parameters[].Name"  # AWS
+gcloud secrets list                     # GCP
+```
+
+## bws コマンドリファレンス
+
+### bws run（環境変数注入）
+
+`bws run` はシークレットを環境変数として注入した状態でコマンドを実行する。
+Claude Code との連携で最も重要な機能。
+
+```bash
+# プロジェクト内の全シークレットを環境変数として注入
+bws run --project-id <PROJECT_ID> -- <COMMAND>
+```
 
 ### シークレット管理（bws secret）
 
@@ -108,77 +188,11 @@ bws config server-base https://my-bitwarden.example.com
 
 # プロファイル付き
 bws config server-base https://dev-server.com --profile dev
-
-# 代替設定ファイル使用
-bws config server-base https://server.com --config-file ~/.bws/alt_config --profile alt
 ```
 
 設定ファイルは `~/.bws/config` に保存される。
 
-### bws run（環境変数注入）
-
-`bws run` はシークレットを環境変数として注入した状態でコマンドを実行する。
-`.env` ファイルにシークレットを書く必要がなくなるため、Claude Code との連携で最も重要な機能。
-
-```bash
-# プロジェクト内の全シークレットを環境変数として注入してコマンド実行
-bws run --project-id <PROJECT_ID> -- npm test
-bws run --project-id <PROJECT_ID> -- 'docker compose up'
-bws run --project-id <PROJECT_ID> -- python manage.py runserver
-```
-
-## 出力オプション
-
-`-o` / `--output` フラグで出力形式を指定できる。
-
-| 形式 | 説明 | 用途 |
-|------|------|------|
-| `json` | JSON（デフォルト） | プログラム処理 |
-| `yaml` | YAML | 読みやすい表示 |
-| `table` | ASCII テーブル | ターミナル確認 |
-| `tsv` | タブ区切り | スプレッドシート連携 |
-| `env` | KEY=VALUE 形式 | `.env` ファイル生成 |
-| `none` | エラー/警告のみ | スクリプト用 |
-
-```bash
-# ⚠️ Claude Code からは以下の形式を直接使わないこと（value が見える）
-# bws secret list --output table
-# bws secret list --output env
-
-# ✅ Claude Code からはjqでvalue除外して使う
-bws secret list | jq '[.[] | {id, key, organizationId, projectId, creationDate, revisionDate}]'
-```
-
-## グローバルオプション
-
-| オプション | 説明 |
-|-----------|------|
-| `-t, --access-token <TOKEN>` | アクセストークンを直接指定 |
-| `--profile <NAME>` | 使用するプロファイル |
-| `--config-file <PATH>` | 設定ファイルパス |
-| `--server-url <URL>` | サーバーURL上書き |
-| `-c, --color <yes\|no\|auto>` | 色出力制御 |
-| `-o, --output <FORMAT>` | 出力形式 |
-| `-h, --help` | ヘルプ表示 |
-| `--version` | バージョン表示 |
-
-## 環境変数
-
-| 変数 | 用途 |
-|------|------|
-| `BWS_ACCESS_TOKEN` | アクセストークン（設定必須） |
-
-## Claude Code 連携ワークフロー
-
-### 設計思想：「短く狭い鍵を、必要なときだけ渡す」
-
-Claude Code にシークレットを安全に扱わせるための3段階モデル：
-
-1. **`.env` にシークレットを置かない** — ファイルベースの管理をやめ、漏洩リスクを排除
-2. **専用 machine account で最小権限を付与** — Claude Code 用のアカウントを作り、必要なプロジェクトだけにアクセス権を設定
-3. **`bws run` で必要なときだけ注入** — コマンド実行時のみシークレットが環境変数として存在し、終了後は消える
-
-### セットアップ手順
+## セットアップ
 
 ```bash
 # 1. BWS CLIのインストール（macOS）
@@ -198,23 +212,7 @@ export BWS_ACCESS_TOKEN="<発行されたトークン>"
 bws project list
 ```
 
-### 日常的な使い方
-
-```bash
-# シークレットを注入してアプリ起動
-bws run --project-id <PID> -- npm run dev
-
-# シークレットを注入してテスト実行
-bws run --project-id <PID> -- npm test
-
-# シークレット一覧確認（value除外）
-bws secret list <PROJECT_ID> | jq '[.[] | {id, key, organizationId, projectId, creationDate, revisionDate}]'
-
-# 個別シークレットのメタ情報確認（value除外）
-bws secret get <SECRET_ID> | jq '{id, key, organizationId, projectId, creationDate, revisionDate}'
-```
-
-### セキュリティのベストプラクティス
+## セキュリティのベストプラクティス
 
 - アクセストークンには**短い有効期限**を設定する
 - machine account には**必要最小限のプロジェクト権限**のみ付与
@@ -238,3 +236,46 @@ bws run --help
 
 # レート制限エラー時：短時間に大量リクエストを避ける
 ```
+
+## 参考：bw との違い
+
+| 項目 | `bw`（Password Manager） | `bws`（Secrets Manager） |
+|------|--------------------------|--------------------------|
+| 用途 | 個人のパスワード管理 | マシン/CI/自動化向けシークレット管理 |
+| 認証 | マスターパスワード + セッション | アクセストークン（期限付き可） |
+| 権限 | ボールト全体 | プロジェクト単位で制限可能 |
+| Claude Code 連携 | 不向き（広すぎる権限） | 最適（最小権限で運用可能） |
+
+## 参考：出力オプション
+
+`-o` / `--output` フラグで出力形式を指定できる。
+
+| 形式 | 説明 |
+|------|------|
+| `json` | JSON（デフォルト） |
+| `yaml` | YAML |
+| `table` | ASCII テーブル |
+| `tsv` | タブ区切り |
+| `env` | KEY=VALUE 形式 |
+| `none` | エラー/警告のみ |
+
+⚠️ Claude Code からは `table` / `env` / `yaml` 形式を直接使わないこと（value が見える）。
+
+## 参考：グローバルオプション
+
+| オプション | 説明 |
+|-----------|------|
+| `-t, --access-token <TOKEN>` | アクセストークンを直接指定 |
+| `--profile <NAME>` | 使用するプロファイル |
+| `--config-file <PATH>` | 設定ファイルパス |
+| `--server-url <URL>` | サーバーURL上書き |
+| `-c, --color <yes\|no\|auto>` | 色出力制御 |
+| `-o, --output <FORMAT>` | 出力形式 |
+| `-h, --help` | ヘルプ表示 |
+| `--version` | バージョン表示 |
+
+## 参考：環境変数
+
+| 変数 | 用途 |
+|------|------|
+| `BWS_ACCESS_TOKEN` | アクセストークン（設定必須） |
