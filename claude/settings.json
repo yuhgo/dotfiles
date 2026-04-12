@@ -37,7 +37,6 @@
       "Bash(claude mcp:*)",
       "Bash(uv:*)",
       "Bash(uvx:*)",
-      "Bash(terminal-notifier:*)",
       "Bash(bunx:*)",
       "Bash(claude --version)",
       "mcp__serena__list_dir",
@@ -135,28 +134,8 @@
         ]
       }
     ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "cmux notify 'Claude Codeがタスクを完了しました'"
-          }
-        ]
-      }
-    ],
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "terminal-notifier -title 'Claude Code' -subtitle '確認待ち' -message 'Claude Codeが許可を求めています' -sound Glass -activate com.todesktop.230313mzl4w4u92"
-          }
-        ]
-      }
-    ]
+    "Stop": [],
+    "Notification": []
   },
   "statusLine": {
     "type": "command",
@@ -164,14 +143,21 @@
     "padding": 0
   },
   "enabledPlugins": {
+    "example-skills@anthropic-agent-skills": true,
     "claude-code-harness@claude-code-harness-marketplace": true,
-    "example-skills@anthropic-agent-skills": true
+    "codex@openai-codex": true
   },
   "extraKnownMarketplaces": {
     "anthropic-agent-skills": {
       "source": {
         "source": "github",
         "repo": "anthropics/skills"
+      }
+    },
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
       }
     }
   },

@@ -30,5 +30,13 @@
     },
     "installLocation": "/Users/yamamotoyugo/.claude/plugins/marketplaces/anthropic-agent-skills",
     "lastUpdated": "2026-03-12T13:11:09.288Z"
+  },
+  "openai-codex": {
+    "source": {
+      "source": "github",
+      "repo": "openai/codex-plugin-cc"
+    },
+    "installLocation": "/Users/yamamotoyugo/.claude/plugins/marketplaces/openai-codex",
+    "lastUpdated": "2026-04-12T10:10:00.662Z"
   }
 }

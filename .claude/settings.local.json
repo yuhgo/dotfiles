@@ -65,7 +65,13 @@
       "WebFetch(domain:cmux.com)",
       "WebFetch(domain:manaflow-ai-cmux.mintlify.app)",
       "Skill(daily-report-tsv)",
-      "WebFetch(domain:skills.sh)"
+      "WebFetch(domain:skills.sh)",
+      "Bash(claude plugins:*)",
+      "WebFetch(domain:note.com)",
+      "Bash(cmux --help)",
+      "Bash(cmux notify:*)",
+      "Bash(pip list:*)",
+      "Bash(pip3 list:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

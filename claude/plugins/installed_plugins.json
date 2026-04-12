@@ -11,16 +11,6 @@
         "gitCommitSha": "edfc1a403ff836c0881ed1866436203514dfe94d"
       }
     ],
-    "claude-code-harness@claude-code-harness-marketplace": [
-      {
-        "scope": "user",
-        "installPath": "/Users/yamamotoyugo/.claude/plugins/cache/claude-code-harness-marketplace/claude-code-harness/3.10.6",
-        "version": "3.10.6",
-        "installedAt": "2026-02-25T10:34:24.211Z",
-        "lastUpdated": "2026-03-20T04:35:02.086Z",
-        "gitCommitSha": "7f91186b2d980886ae8ec4bce6a6085d79b5af15"
-      }
-    ],
     "claude-mem-japanese@claude-mem-jp": [
       {
         "scope": "user",
@@ -39,6 +29,26 @@
         "installedAt": "2026-03-12T13:13:48.574Z",
         "lastUpdated": "2026-03-12T13:13:48.574Z",
         "gitCommitSha": "b0cbd3df1533b396d281a6886d5132f623393a9c"
+      }
+    ],
+    "claude-code-harness@claude-code-harness-marketplace": [
+      {
+        "scope": "user",
+        "installPath": "/Users/yamamotoyugo/.claude/plugins/cache/claude-code-harness-marketplace/claude-code-harness/4.0.1",
+        "version": "4.0.1",
+        "installedAt": "2026-04-12T07:10:06.360Z",
+        "lastUpdated": "2026-04-12T07:10:06.360Z",
+        "gitCommitSha": "ef6feec0e35c84a6e7de3f96399b028b93faa196"
+      }
+    ],
+    "codex@openai-codex": [
+      {
+        "scope": "user",
+        "installPath": "/Users/yamamotoyugo/.claude/plugins/cache/openai-codex/codex/1.0.3",
+        "version": "1.0.3",
+        "installedAt": "2026-04-12T10:10:32.444Z",
+        "lastUpdated": "2026-04-12T10:10:32.444Z",
+        "gitCommitSha": "6a5c2ba53b734f3cdd8daacbd49f68f3e6c8c167"
       }
     ]
   }

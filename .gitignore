@@ -48,9 +48,23 @@ claude/.claude/
 claude/plugins/blocklist.json
 claude/plugins/install-counts-cache.json
 claude/plugins/marketplaces/anthropic-agent-skills/
+claude/plugins/marketplaces/openai-codex/
 
 # バックアップファイル
 claude/settings.json.pre-harness-cutover.*
+
+# Codex ランタイムデータ
+codex/auth.json
+codex/log/
+codex/logs_*.sqlite
+codex/state_*.sqlite
+codex/state_*.sqlite-shm
+codex/state_*.sqlite-wal
+codex/models_cache.json
+codex/version.json
+codex/.personality_migration
+codex/sessions/
+codex/skills/.system/
 
 # 外部ツール自動生成
 .agent/

@@ -11,11 +11,6 @@ review:
   # Default mode: "default" (4 perspectives) or "codex" (parallel MCP execution)
   mode: default
 
-  # Cursor CLI second opinion (after Claude review)
-  cursor:
-    enabled: true
-    model: composer-2-fast
-    timeout_ms: 120000
 
 # Breezing settings (Agent Teams)
 breezing:
