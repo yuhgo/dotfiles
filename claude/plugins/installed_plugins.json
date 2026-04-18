@@ -34,10 +34,10 @@
     "claude-code-harness@claude-code-harness-marketplace": [
       {
         "scope": "user",
-        "installPath": "/Users/yamamotoyugo/.claude/plugins/cache/claude-code-harness-marketplace/claude-code-harness/4.0.1",
-        "version": "4.0.1",
+        "installPath": "/Users/yamamotoyugo/.claude/plugins/cache/claude-code-harness-marketplace/claude-code-harness/4.1.1",
+        "version": "4.1.1",
         "installedAt": "2026-04-12T07:10:06.360Z",
-        "lastUpdated": "2026-04-12T07:10:06.360Z",
+        "lastUpdated": "2026-04-18T08:27:01.280Z",
         "gitCommitSha": "ef6feec0e35c84a6e7de3f96399b028b93faa196"
       }
     ],
