@@ -71,7 +71,14 @@
       "Bash(cmux --help)",
       "Bash(cmux notify:*)",
       "Bash(pip list:*)",
-      "Bash(pip3 list:*)"
+      "Bash(pip3 list:*)",
+      "Read(//Users/yamamotoyugo/**)",
+      "Read(//Users/yamamotoyugo/.config/**)",
+      "Bash(git -C claude/plugins/marketplaces/thedotmack status)",
+      "Bash(git -C claude/chrome/chrome-native-host status)",
+      "Bash(cp claude/settings.json /tmp/settings.json.full)",
+      "Bash(git stash *)",
+      "Bash(git add *)"
     ]
   },
   "enableAllProjectMcpServers": true,
