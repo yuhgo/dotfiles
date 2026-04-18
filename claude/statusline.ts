@@ -167,74 +167,34 @@ async function getGitInfo(
 
 // ── Harness-mem ──
 
+type HarnessMemStatus = "connected" | "degraded" | "disconnected";
+
 interface HarnessMemResult {
-  ok: boolean;
-  hasSessionData: boolean;
-  title: string;
-  ago: string;
+  status: HarnessMemStatus;
+  warnings: string[];
 }
 
-async function getHarnessMem(
-  sessionId: string
-): Promise<HarnessMemResult> {
-  const fail = { ok: false, hasSessionData: false, title: "", ago: "" };
+async function getHarnessMem(): Promise<HarnessMemResult> {
   try {
     const healthRes = await fetch("http://127.0.0.1:37888/health", {
       signal: AbortSignal.timeout(1000),
     });
-    const health = (await healthRes.json()) as { ok?: boolean };
-    if (!health.ok) return { ...fail, ok: false };
-
-    if (!sessionId)
-      return { ok: true, hasSessionData: false, title: "", ago: "" };
-
-    const searchRes = await fetch("http://127.0.0.1:37888/v1/search", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: "*", session_id: sessionId, limit: 1 }),
-      signal: AbortSignal.timeout(1000),
-    });
-    const search = (await searchRes.json()) as {
-      meta?: {
-        count?: number;
-        latest_interaction?: {
-          response?: { title?: string; created_at?: string; content?: string };
-        };
-      };
-      items?: Array<{ title?: string; created_at?: string; content?: string }>;
+    const health = (await healthRes.json()) as {
+      ok?: boolean;
+      warnings?: unknown;
     };
+    if (!health.ok) return { status: "disconnected", warnings: [] };
 
-    const count = search.meta?.count ?? 0;
-    if (count === 0)
-      return { ok: true, hasSessionData: false, title: "", ago: "" };
+    const warnings = Array.isArray(health.warnings)
+      ? health.warnings.map((w) => String(w)).filter((w) => w.length > 0)
+      : [];
 
-    const entry = search.meta?.latest_interaction?.response ?? search.items?.[0];
-    let title = entry?.title ?? "";
-    const createdAt = entry?.created_at ?? "";
-
-    // For generic titles, use content summary instead
-    if (title === "assistant_response" || title === "user_prompt") {
-      const content = entry?.content ?? "";
-      if (content) {
-        title = content
-          .replace(/^#*\s*/, "")
-          .replace(/\*\*/g, "")
-          .replace(/`/g, "")
-          .replace(/\n/g, " ")
-          .replace(/\s+/g, " ")
-          .trim();
-      }
-    }
-
-    // Truncate to 40 chars
-    if (title.length > 40) {
-      title = title.slice(0, 39) + "…";
-    }
-
-    const ago = createdAt ? formatTimeAgo(createdAt) : "";
-    return { ok: true, hasSessionData: true, title, ago };
+    return {
+      status: warnings.length > 0 ? "degraded" : "connected",
+      warnings,
+    };
   } catch {
-    return fail;
+    return { status: "disconnected", warnings: [] };
   }
 }
 
@@ -249,7 +209,6 @@ async function main() {
   const linesAdded = input.cost?.total_lines_added ?? 0;
   const linesRemoved = input.cost?.total_lines_removed ?? 0;
   const cwd = input.workspace?.current_dir ?? "";
-  const sessionId = input.session_id ?? "";
 
   const fivePct = input.rate_limits?.five_hour?.used_percentage;
   const fiveResetEpoch = input.rate_limits?.five_hour?.resets_at;
@@ -259,7 +218,7 @@ async function main() {
   // Parallel: git info + harness-mem
   const [gitInfo, hmem] = await Promise.all([
     getGitInfo(cwd),
-    getHarnessMem(sessionId),
+    getHarnessMem(),
   ]);
 
   const sep = `${GRAY} │ ${RESET}`;
@@ -308,18 +267,22 @@ async function main() {
     }
   }
 
-  // ── Line 5: harness-mem status ──
+  // ── Line 5: harness-mem connection status ──
+  // Three-state indicator:
+  //   🟢 Connected   — health.ok && no warnings
+  //   🟡 Degraded    — health.ok but warnings[] present (show count + detail)
+  //   🔴 Disconnected — health failed / daemon offline
   let line5 = "";
-  if (hmem.ok) {
-    line5 = `${GREEN}🧠 mem ✓${RESET}`;
-    if (hmem.hasSessionData) {
-      if (hmem.title) line5 += `  ${CYAN}${hmem.title}${RESET}`;
-      if (hmem.ago) line5 += `  ${GRAY}${hmem.ago}${RESET}`;
-    } else {
-      line5 += `  ${YELLOW}no captures in current session${RESET}`;
-    }
+  if (hmem.status === "connected") {
+    line5 = `🟢 ${GREEN}mem Connected${RESET}`;
+  } else if (hmem.status === "degraded") {
+    const count = hmem.warnings.length;
+    const head = hmem.warnings[0] ?? "";
+    const headTrunc = head.length > 50 ? head.slice(0, 49) + "…" : head;
+    line5 = `🟡 ${YELLOW}mem Degraded${RESET}  ${GRAY}${count} warning${count === 1 ? "" : "s"}${RESET}`;
+    if (headTrunc) line5 += `  ${YELLOW}${headTrunc}${RESET}`;
   } else {
-    line5 = `${RED}🧠 mem ✗ offline${RESET}`;
+    line5 = `🔴 ${RED}mem Disconnected — daemon unreachable at 127.0.0.1:37888${RESET}`;
   }
 
   // ── Output ──
