@@ -1,26 +1,6 @@
 {
   "version": 2,
   "plugins": {
-    "claude-mem@thedotmack": [
-      {
-        "scope": "user",
-        "installPath": "/Users/yamamotoyugo/.claude/plugins/cache/thedotmack/claude-mem/9.0.17",
-        "version": "9.0.17",
-        "installedAt": "2026-02-06T02:51:04.450Z",
-        "lastUpdated": "2026-02-06T02:51:04.450Z",
-        "gitCommitSha": "edfc1a403ff836c0881ed1866436203514dfe94d"
-      }
-    ],
-    "claude-mem-japanese@claude-mem-jp": [
-      {
-        "scope": "user",
-        "installPath": "/Users/yamamotoyugo/.claude/plugins/cache/claude-mem-jp/claude-mem-japanese/1.2.1",
-        "version": "1.2.1",
-        "installedAt": "2026-02-24T01:10:01.213Z",
-        "lastUpdated": "2026-02-24T01:10:01.213Z",
-        "gitCommitSha": "29adf603591368ddf92f705f115e878883143460"
-      }
-    ],
     "example-skills@anthropic-agent-skills": [
       {
         "scope": "user",

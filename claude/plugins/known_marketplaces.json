@@ -1,12 +1,4 @@
 {
-  "thedotmack": {
-    "source": {
-      "source": "github",
-      "repo": "thedotmack/claude-mem"
-    },
-    "installLocation": "/Users/yamamotoyugo/.claude/plugins/marketplaces/thedotmack",
-    "lastUpdated": "2026-02-06T02:47:59.498Z"
-  },
   "claude-code-harness-marketplace": {
     "source": {
       "source": "github",
@@ -14,14 +6,6 @@
     },
     "installLocation": "/Users/yamamotoyugo/.claude/plugins/marketplaces/claude-code-harness-marketplace",
     "lastUpdated": "2026-04-18T08:33:30.341Z"
-  },
-  "claude-mem-jp": {
-    "source": {
-      "source": "github",
-      "repo": "Chachamaru127/claude-mem-jp"
-    },
-    "installLocation": "/Users/yamamotoyugo/.claude/plugins/marketplaces/claude-mem-jp",
-    "lastUpdated": "2026-02-24T01:09:48.279Z"
   },
   "anthropic-agent-skills": {
     "source": {
