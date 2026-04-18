@@ -7,7 +7,7 @@
 
 ## 方針の要点
 
-- **agents / commands / skills は原則プラグインで賄う**（SuperClaude系の旧 `agents/` `commands/` は無効化し `_agents/` `_commands/` に退避済み）
+- **agents / commands / skills は原則プラグインで賄う**（SuperClaude 系の旧 `agents/` `commands/` は 2026-04 に撤去済み）
 - **プラグイン: `claude-code-harness` を中核に、`codex`・`example-skills` を併用**
 - **記憶係は `harness-mem` に一本化**（`claude-mem` / `claude-mem-japanese` は使っていない。下記「非アクティブなプラグイン」参照）
 - **MCP: 最小構成**（`obsidian-vault`・`google-calendar` のみを dotfiles 側 `.mcp.json` で管理。他は Claude 本体や各プラグイン側）
@@ -133,7 +133,6 @@ claude/
 ├── scripts/                     # hooks 用シェルスクリプト
 ├── customizations/              # プロジェクト横断のカスタマイズ（harness-review 等）
 ├── plugins/                     # プラグインキャッシュ（自動管理）
-├── _agents/ _commands/ _skills/ # 旧 SuperClaude 資産（無効化済み）
 └── (その他 Claude 本体の実行時生成物)
 ```
 
