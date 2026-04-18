@@ -82,10 +82,6 @@
       "Bash(find*-exec rm*)",
       "Bash(find*-exec unlink*)",
       "Bash(truncate:*)",
-      "Bash(git clean:*)",
-      "Bash(git push:*)",
-      "Bash(git reset:*)",
-      "Bash(git rebase:*)",
       "Read(.env.*)",
       "Read(id_rsa)",
       "Read(id_ed25519)",
@@ -210,6 +206,12 @@
       "source": {
         "source": "github",
         "repo": "openai/codex-plugin-cc"
+      }
+    },
+    "claude-code-harness-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "Chachamaru127/claude-code-harness"
       }
     }
   },
