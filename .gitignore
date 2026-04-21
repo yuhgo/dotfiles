@@ -51,6 +51,8 @@ claude/plugins/marketplaces/anthropic-agent-skills/
 claude/plugins/marketplaces/openai-codex/
 claude/plugins/data/
 claude/logs/
+claude/image-cache/
+claude/mcp-needs-auth-cache.json
 
 # バックアップファイル
 claude/settings.json.pre-harness-cutover.*
