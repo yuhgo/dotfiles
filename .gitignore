@@ -45,12 +45,15 @@ claude/memory/
 claude/.claude/
 
 # プラグインキャッシュ・自動生成
+claude/chrome/chrome-native-host
 claude/plugins/blocklist.json
 claude/plugins/install-counts-cache.json
 claude/plugins/marketplaces/anthropic-agent-skills/
 claude/plugins/marketplaces/openai-codex/
 claude/plugins/data/
 claude/logs/
+claude/image-cache/
+claude/mcp-needs-auth-cache.json
 
 # バックアップファイル
 claude/settings.json.pre-harness-cutover.*
@@ -59,6 +62,8 @@ claude/settings.json.pre-harness-cutover.*
 codex/auth.json
 codex/log/
 codex/logs_*.sqlite
+codex/logs_*.sqlite-shm
+codex/logs_*.sqlite-wal
 codex/state_*.sqlite
 codex/state_*.sqlite-shm
 codex/state_*.sqlite-wal
@@ -69,6 +74,15 @@ codex/sessions/
 codex/skills/.system/
 codex/session_index.jsonl
 codex/tmp/
+codex/.tmp/
+codex/.codex-global-state.json
+codex/.codex-global-state.json*.bak
+codex/installation_id
+codex/shell_snapshots/
+codex/sqlite/
+codex/ambient-suggestions/
+codex/generated_images/
+codex/vendor_imports/
 
 # 外部ツール自動生成
 .agent/

@@ -83,7 +83,8 @@
 | `zero-base-review` | SSOT / シンプルさ観点のゼロベース設計レビュー |
 | `next-best-practices` / `next-lighthouse-loop` / `lighthouse` | Next.js 運用・計測 |
 | `playwright-cli` / `dogfood` | ブラウザ自動化・探索的テスト |
-| `bws-cli` / `bitwarden-cli` / `vercel-env-sync` | シークレット管理 |
+| `infisical-cli` | シークレット管理（Infisical Cloud / `infisical run` / `infisical secrets`） |
+| `bitwarden-cli` / `vercel-env-sync` | パスワード保管庫 / Vercel env 同期 |
 | `csv-from-sample` / `sales-and-payment-csv` | 確定申告 CSV 生成 |
 | `farm-in-daily-report` / `daily-report-tsv` / `obsidian-fill-daily-done` | 日報・Obsidian 連携 |
 | `find-skills` | インストール可能 skill の発見（シンボリックリンク） |
@@ -115,7 +116,7 @@ claude-code-harness 内蔵の `memory` skill とは役割が別（SSOT 管理 vs
 | `.mcp.json` | MCP サーバー定義（obsidian-vault / google-calendar のみ） |
 | `statusline.ts` | コンテキスト使用率・git 状態・コスト・harness-mem 接続状態を表示 |
 | `mcp-templates.json` | MCP テンプレート集（任意利用） |
-| `scripts/block-bws-raw-read.sh` | `bws` 経由の生シークレット読出しをブロックする PreToolUse hook |
+| `scripts/block-infisical-raw-read.sh` | `infisical secrets get` 等の value 直読みを PreToolUse でブロック |
 | `scripts/save-ghostty-tab.sh` | SessionStart で Ghostty タブ情報を保存 |
 | `scripts/upgrade-claude.sh` | Claude Code 本体の Homebrew アップグレード |
 
@@ -151,3 +152,42 @@ claude/
 ## セキュリティ
 
 詳細は `.claude/rules/security-guidelines.md` 参照。認証・API・機密設定パスの変更は注意レベル付きで扱う。
+
+## シークレット管理方針
+
+シークレット（API キー / 認証情報 / DB 接続文字列など）の取り扱いは以下を厳守する。
+
+### Infisical Cloud を使う
+
+- **`infisical-cli` skill を使う**（`infisical run` で環境変数注入 / `infisical secrets` で管理）
+- ローカル開発・CI/CD・本番でそれぞれ最適な認証方式を選べるため、長寿命の機械可読トークンを抱える鶏卵問題を回避できる
+
+### 環境別の認証方式
+
+| 環境 | 認証方式 | 補足 |
+|------|---------|------|
+| ローカル開発 | `infisical login`（ブラウザ OAuth） | 機械可読なトークンを手元に置かない |
+| CI/CD（GitHub Actions / GitLab CI） | **OIDC Auth** | プロバイダの OIDC トークンを直接交換。長寿命 secret を CI に置かない |
+| AWS（EC2 / ECS / Lambda） | **IAM Auth** | インスタンスプロファイル / IAM ロールを使う |
+| 上記に当てはまらないスクリプト | Universal Auth | `INFISICAL_CLIENT_ID` / `INFISICAL_CLIENT_SECRET` は Bitwarden 等に保管（Infisical 自身に入れない＝鶏卵） |
+
+### 本番環境
+
+本番デプロイ先（Vercel / Cloudflare Workers / AWS / GCP）では、それぞれのプラットフォームのシークレットストアに**直接**入れる:
+
+- Vercel: `vercel env add`
+- Cloudflare Workers: `wrangler secret put`
+- AWS: `aws ssm put-parameter --type SecureString`
+- GCP: `gcloud secrets create`
+
+Infisical はローカル開発と CI/CD のシークレット同期の起点として使い、本番ランタイムは各プラットフォームのストアを正とする。
+
+### 禁止事項
+
+- ❌ **`.env` / `.env.*` への直書き**（`.env.example` のみ追跡対象）
+- ❌ **コード内ハードコード**（`const API_KEY = "..."`）
+- ❌ Claude が `infisical secrets get` 等の **value 直読み系コマンドを実行する**こと
+  - PreToolUse hook (`claude/scripts/block-infisical-raw-read.sh`) で機械的にブロック済み
+- ❌ Infisical の Universal Auth 認証情報を `.env` や設定ファイルに入れること（鶏卵を生む）
+
+詳細は `claude/skills/infisical-cli/SKILL.md` を参照。
