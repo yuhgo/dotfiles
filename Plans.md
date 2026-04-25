@@ -79,8 +79,9 @@
   - DoD: 「Infisical を第一選択」「bws は段階的に縮退」「`.env` 直書き禁止」「ローカル=infisical login / CI=OIDC / 本番=IAM Auth または Vercel/Cloudflare 各 env」の方針が明文化される
 - [ ] T915: `dotfiles/claude/skills/bws-cli/SKILL.md` 冒頭に「**現在は Infisical へ移行済み。新規プロジェクトでは infisical-cli skill を使うこと**」の deprecation note を追加 `cc:TODO` depends:T914
   - DoD: SKILL.md 冒頭に注記が入り、bws-cli は「既存 bws プロジェクトの参照用」に位置づけが変わる
-- [ ] T916: `~/.claude/settings.json` の `enabledPlugins` / hooks に Infisical 由来の権限・拒否ルール（例: `infisical secret get` を deny する PreToolUse hook）を追加 `cc:TODO` depends:T911
+- [x] T916: `~/.claude/settings.json` の `enabledPlugins` / hooks に Infisical 由来の権限・拒否ルール（例: `infisical secret get` を deny する PreToolUse hook）を追加 `cc:完了` depends:T911
   - DoD: bws と同等のセキュリティガードレール（value を Claude が直接読まない仕組み）が Infisical 側にも導入されている
+  - 実績: `claude/scripts/block-infisical-raw-read.sh` を新規追加し、`settings.json#hooks.PreToolUse[Bash]` に登録。`infisical secrets get` / `--plain` / `-o env|dotenv|yaml` / `infisical export` をブロックし、`infisical run` / `infisical secrets set` / `-o json` 経由は許可する。9 ケースのケーススタディで挙動確認済み
 - [ ] T917: 動作確認: 任意のプロジェクトで `infisical run -- env | grep KEY_NAME` ではなく `infisical run -- npm run dev` 相当の起動が通る `cc:TODO` depends:T916
   - DoD: Infisical 経由でシークレット注入された状態でアプリが起動できることを確認（実プロジェクト1つで）
 
