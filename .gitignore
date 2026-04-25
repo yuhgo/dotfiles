@@ -45,6 +45,7 @@ claude/memory/
 claude/.claude/
 
 # プラグインキャッシュ・自動生成
+claude/chrome/chrome-native-host
 claude/plugins/blocklist.json
 claude/plugins/install-counts-cache.json
 claude/plugins/marketplaces/anthropic-agent-skills/
