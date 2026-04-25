@@ -1,6 +1,6 @@
 ---
 name: infisical-cli
-description: 環境変数・シークレット管理の総合ガイド。Infisical Cloud（および self-hosted Infisical）を中心に、ローカル開発・CI/CD・本番環境でのシークレットの安全な取り扱いを定義する。.env ファイルへの直書きやハードコードよりも `infisical run` による環境変数注入を優先する。本番環境へのシークレット設定時は、各プラットフォームの CLI（vercel env, wrangler secret, aws ssm, gcloud secrets）と Infisical を組み合わせて使用する。「infisical」「infisical run」「infisical secrets」「infisical login」「Universal Auth」「Machine Identity」「INFISICAL_CLIENT_ID」「INFISICAL_CLIENT_SECRET」「INFISICAL_TOKEN」「OIDC Auth」「IAM Auth」「シークレット管理」「シークレット注入」「環境変数」「APIキー」「.env」「env」「本番シークレット」「CI/CDシークレット」「vercel env」「wrangler secret」「aws ssm」「gcloud secrets」などの話題が会話に出てきた場合にトリガーする。bws（Bitwarden Secrets Manager）からの移行先であり、bws-cli skill は段階的に縮退中。
+description: 環境変数・シークレット管理の総合ガイド。Infisical Cloud（および self-hosted Infisical）を中心に、ローカル開発・CI/CD・本番環境でのシークレットの安全な取り扱いを定義する。.env ファイルへの直書きやハードコードよりも `infisical run` による環境変数注入を優先する。本番環境へのシークレット設定時は、各プラットフォームの CLI（vercel env, wrangler secret, aws ssm, gcloud secrets）と Infisical を組み合わせて使用する。「infisical」「infisical run」「infisical secrets」「infisical login」「Universal Auth」「Machine Identity」「INFISICAL_CLIENT_ID」「INFISICAL_CLIENT_SECRET」「INFISICAL_TOKEN」「OIDC Auth」「IAM Auth」「シークレット管理」「シークレット注入」「環境変数」「APIキー」「.env」「env」「本番シークレット」「CI/CDシークレット」「vercel env」「wrangler secret」「aws ssm」「gcloud secrets」などの話題が会話に出てきた場合にトリガーする。
 allowed-tools: Bash, Read
 ---
 
@@ -8,10 +8,6 @@ allowed-tools: Bash, Read
 
 シークレット（API キーなど）の安全な取り扱い方を定義するスキル。
 ローカル開発では **Infisical CLI（`infisical`）** を使い、本番環境では**各プラットフォームのシークレットストア**を使う。
-
-> **bws からの移行**: 本リポジトリは 2026 年に `bws`（Bitwarden Secrets Manager）から Infisical Cloud へ移行した。
-> 移行スクリプトは [`scripts/import-from-bws.py`](./scripts/import-from-bws.py) に同梱（uv shebang 形式）。
-> bws-cli skill は既存 bws プロジェクト参照用として残してあるが、**新規プロジェクトでは本 skill を使う**。
 
 ## 設計思想：なぜ `.env` ではなく `infisical run` を使うのか
 
@@ -218,44 +214,7 @@ aws ssm get-parameters-by-path --path "/app/" --query "Parameters[].Name"  # AWS
 gcloud secrets list                     # GCP
 ```
 
-## bws-cli からの読み替え表
-
-| やりたいこと | bws | infisical |
-|-------------|-----|-----------|
-| 環境変数注入してコマンド実行 | `bws run --project-id <PID> -- <CMD>` | `infisical run --env=<E> --projectId=<PID> -- <CMD>` |
-| key 一覧（value 除外） | `bws secret list \| jq '[.[] \| {id, key}]'` | `infisical secrets --env=<E> --projectId=<PID> --silent -o json \| jq '[.[] \| {secretKey}]'` |
-| 個別シークレット取得 | `bws secret get <ID>`（**禁止**） | `infisical secrets get <KEY>`（**禁止**） |
-| 作成 | `bws secret create <KEY> <VAL> <PID>` | `infisical secrets set <KEY> <VAL> --env=<E> --projectId=<PID>` |
-| 削除 | `bws secret delete <ID>` | `infisical secrets delete <KEY> --env=<E> --projectId=<PID>` |
-| プロジェクト一覧 | `bws project list` | （UI で確認 / Machine Identity 認証時のみ API） |
-| 認証 | `BWS_ACCESS_TOKEN` 必須 | `infisical login`（local）/ OIDC / IAM / Universal Auth |
-| プロジェクト識別子 | UUID（`--project-id`） | UUID（`--projectId`） + 環境スラグ（`--env`） |
-| 環境分離 | プロジェクト単位 | **環境スラグで分離**（`dev` / `staging` / `prod` を 1 プロジェクト内で持つ） |
-
-> **重要**: bws はプロジェクト = 環境（`my-app-dev` と `my-app-prod` を別プロジェクトにする運用）だったが、
-> Infisical は **1 プロジェクト × 複数環境**で運用する。`--env` フラグの指定漏れは事故の元。
-
-## import スクリプト（bws → Infisical 移行）
-
-`scripts/import-from-bws.py` は bws の `memo.json` エクスポートを読み、Infisical Cloud に Universal Auth で投入する PEP 723 形式の uv 単一ファイルスクリプト。
-
-### 使い方
-
-```bash
-# 1. Bitwarden に保管した Universal Auth 情報を env に入れる
-export INFISICAL_CLIENT_ID=$(bw get item "Infisical Machine Identity" | jq -r '.fields[] | select(.name=="client_id").value')
-export INFISICAL_CLIENT_SECRET=$(bw get item "Infisical Machine Identity" | jq -r '.fields[] | select(.name=="client_secret").value')
-
-# 2. dry-run で投入計画を確認（value は **** マスク）
-uv run claude/skills/infisical-cli/scripts/import-from-bws.py \
-  --memo ~/path/to/memo.json --dry-run
-
-# 3. 本投入
-uv run claude/skills/infisical-cli/scripts/import-from-bws.py \
-  --memo ~/path/to/memo.json --env=prod
-```
-
-詳細は [`scripts/import-from-bws.py`](./scripts/import-from-bws.py) の docstring と `--help` を参照。
+> **環境分離は 1 プロジェクト × 複数環境**で運用する。`--env` フラグの指定漏れは事故の元（`dev` / `staging` / `prod` を別プロジェクトにしない）。
 
 ## infisical コマンドリファレンス
 
@@ -374,18 +333,6 @@ export INFISICAL_API_URL=https://eu.infisical.com/api
 | `Error: environment not found` | `--env` のスラグ違い | UI で環境スラグ（`dev` / `staging` / `prod`）を確認 |
 | `401 Unauthorized` | Universal Auth の credential 不正 / 権限不足 | Machine Identity の権限と client_secret を確認 |
 | `429 Too Many Requests` | レート制限 | 短時間の大量 API 呼び出しを避ける |
-
-## 参考：bws との違い
-
-| 項目 | `bws`（Bitwarden Secrets Manager） | `infisical`（Infisical） |
-|------|------------------------------------|--------------------------|
-| 認証方式 | アクセストークン（`BWS_ACCESS_TOKEN`） のみ | OAuth ログイン / OIDC / IAM / Universal Auth |
-| 鶏卵問題 | 常に `BWS_ACCESS_TOKEN` 自体の管理が必要 | local は OAuth、CI は OIDC、AWS は IAM で逃せる |
-| プロジェクト × 環境 | プロジェクト単位（環境分離は別プロジェクトで） | 1 プロジェクト × 複数環境（環境スラグで分離） |
-| folder 構造 | フラット | パス階層あり（`/api/...` のような分離） |
-| dynamic secrets | なし | あり（DB / cloud credential を on-demand で発行） |
-| audit log | あり（プラン依存） | あり（プラン依存） |
-| Claude Code 連携 | `bws run` で OK | `infisical run` で OK |
 
 ## 参考：出力オプション
 

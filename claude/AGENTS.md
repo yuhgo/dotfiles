@@ -83,8 +83,8 @@
 | `zero-base-review` | SSOT / シンプルさ観点のゼロベース設計レビュー |
 | `next-best-practices` / `next-lighthouse-loop` / `lighthouse` | Next.js 運用・計測 |
 | `playwright-cli` / `dogfood` | ブラウザ自動化・探索的テスト |
-| `infisical-cli` | **シークレット管理（第一選択）**。Infisical Cloud によるシークレット管理。bws の後継 |
-| `bws-cli` / `bitwarden-cli` / `vercel-env-sync` | シークレット管理（旧）。`bws-cli` は `infisical-cli` へ移行済み（既存 bws プロジェクトの参照用に残置） |
+| `infisical-cli` | シークレット管理（Infisical Cloud / `infisical run` / `infisical secrets`） |
+| `bitwarden-cli` / `vercel-env-sync` | パスワード保管庫 / Vercel env 同期 |
 | `csv-from-sample` / `sales-and-payment-csv` | 確定申告 CSV 生成 |
 | `farm-in-daily-report` / `daily-report-tsv` / `obsidian-fill-daily-done` | 日報・Obsidian 連携 |
 | `find-skills` | インストール可能 skill の発見（シンボリックリンク） |
@@ -116,7 +116,7 @@ claude-code-harness 内蔵の `memory` skill とは役割が別（SSOT 管理 vs
 | `.mcp.json` | MCP サーバー定義（obsidian-vault / google-calendar のみ） |
 | `statusline.ts` | コンテキスト使用率・git 状態・コスト・harness-mem 接続状態を表示 |
 | `mcp-templates.json` | MCP テンプレート集（任意利用） |
-| `scripts/block-bws-raw-read.sh` | `bws` 経由の生シークレット読出しをブロックする PreToolUse hook |
+| `scripts/block-infisical-raw-read.sh` | `infisical secrets get` 等の value 直読みを PreToolUse でブロック |
 | `scripts/save-ghostty-tab.sh` | SessionStart で Ghostty タブ情報を保存 |
 | `scripts/upgrade-claude.sh` | Claude Code 本体の Homebrew アップグレード |
 
@@ -157,11 +157,10 @@ claude/
 
 シークレット（API キー / 認証情報 / DB 接続文字列など）の取り扱いは以下を厳守する。
 
-### 第一選択: Infisical Cloud
+### Infisical Cloud を使う
 
-- **新規プロジェクトでは `infisical-cli` skill を使う**（`infisical run` / `infisical secrets`）
-- `bws`（Bitwarden Secrets Manager）は段階的に縮退中。既存 bws プロジェクトの参照用にのみ `bws-cli` skill を残置している
-- Infisical Cloud は `bws` と違い、ローカル開発・CI/CD・本番でそれぞれ最適な認証方式を選べるため、`BWS_ACCESS_TOKEN` 自体を抱える鶏卵問題が起きにくい
+- **`infisical-cli` skill を使う**（`infisical run` で環境変数注入 / `infisical secrets` で管理）
+- ローカル開発・CI/CD・本番でそれぞれ最適な認証方式を選べるため、長寿命の機械可読トークンを抱える鶏卵問題を回避できる
 
 ### 環境別の認証方式
 
@@ -189,7 +188,6 @@ Infisical はローカル開発と CI/CD のシークレット同期の起点と
 - ❌ **コード内ハードコード**（`const API_KEY = "..."`）
 - ❌ Claude が `infisical secrets get` 等の **value 直読み系コマンドを実行する**こと
   - PreToolUse hook (`claude/scripts/block-infisical-raw-read.sh`) で機械的にブロック済み
-  - bws 側も `block-bws-raw-read.sh` で同等のガード
 - ❌ Infisical の Universal Auth 認証情報を `.env` や設定ファイルに入れること（鶏卵を生む）
 
 詳細は `claude/skills/infisical-cli/SKILL.md` を参照。

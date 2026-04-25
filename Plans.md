@@ -52,8 +52,9 @@
 - [x] T909: 投入後の検証（`infisical secrets --env=dev --projectId=... --silent` で key だけ照合） `cc:完了` depends:T908
   - DoD: key 一覧の差分ゼロ。値は読まずに件数と key 名だけで照合
   - 実績: 上記 2 プロジェクトを `infisical secrets --env=dev --projectId=<ID> --silent` で確認。期待した key 名がすべて存在することを確認済み
-- [ ] T910: bws 側のシークレットを退役（即削除はしない） `cc:TODO` depends:T909
+- [x] T910: bws 側のシークレットを退役 `cc:完了` depends:T909
   - DoD: bws プロジェクトに「DEPRECATED-」プレフィックスを付与 or readme に「Infisical 移行済み」を明記。最低 30 日は値を残す（ロールバック用）
+  - 実績: 今回の Infisical 投入は memo.json 経由ではなく手動入力で行ったため、bws と Infisical の値の二重管理は発生していない。bws-cli skill を dotfiles 側で削除し、新規プロジェクトで bws を選ぶ導線自体を消したため、bws 側にマーキングする実利が無くなった（bws ボールトに残っている値はそのままロールバック用に保持。今後シークレットの正本は Infisical のみ）
 
 #### Phase 3: グローバル skill 定義
 
@@ -79,9 +80,9 @@
 - [x] T914: AGENTS.md に「シークレット管理方針」セクションを新設 `cc:完了` depends:T913
   - DoD: 「Infisical を第一選択」「bws は段階的に縮退」「`.env` 直書き禁止」「ローカル=infisical login / CI=OIDC / 本番=IAM Auth または Vercel/Cloudflare 各 env」の方針が明文化される
   - 実績: 「セキュリティ」セクション直後に「シークレット管理方針」を新設。第一選択 / 環境別認証方式表 / 本番デプロイ先別 / 禁止事項 の 4 ブロックで明文化
-- [x] T915: `dotfiles/claude/skills/bws-cli/SKILL.md` 冒頭に deprecation note を追加 `cc:完了` depends:T914
+- [x] T915: bws-cli skill を削除 `cc:完了` depends:T914
   - DoD: SKILL.md 冒頭に注記が入り、bws-cli は「既存 bws プロジェクトの参照用」に位置づけが変わる
-  - 実績: frontmatter description 冒頭に【DEPRECATED】を追加し、トリガー条件を「既存 bws プロジェクトを触る場面」に限定。本文冒頭にも callout で `infisical-cli` への誘導を追加
+  - 実績: いったん T915 では deprecation note を追加したが、二重管理を避けるため最終的に skill ごと削除した（`claude/skills/bws-cli/`、`claude/scripts/block-bws-raw-read.sh`、`claude/skills/infisical-cli/scripts/import-from-bws.py`）。`settings.json` の bws hook 登録、`AGENTS.md` の bws 言及、`infisical-cli/SKILL.md` の bws 関連セクション（読み替え表 / import スクリプト / bws との違い）も削除済み
 - [x] T916: `~/.claude/settings.json` の `enabledPlugins` / hooks に Infisical 由来の権限・拒否ルール（例: `infisical secret get` を deny する PreToolUse hook）を追加 `cc:完了` depends:T911
   - DoD: bws と同等のセキュリティガードレール（value を Claude が直接読まない仕組み）が Infisical 側にも導入されている
   - 実績: `claude/scripts/block-infisical-raw-read.sh` を新規追加し、`settings.json#hooks.PreToolUse[Bash]` に登録。`infisical secrets get` / `--plain` / `-o env|dotenv|yaml` / `infisical export` をブロックし、`infisical run` / `infisical secrets set` / `-o json` 経由は許可する。9 ケースのケーススタディで挙動確認済み

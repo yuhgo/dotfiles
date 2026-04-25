@@ -114,10 +114,6 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash /Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles/claude/scripts/block-bws-raw-read.sh"
-          },
-          {
-            "type": "command",
             "command": "bash /Users/yamamotoyugo/ghq/github.com/yuhgo/dotfiles/claude/scripts/block-infisical-raw-read.sh"
           }
         ]
