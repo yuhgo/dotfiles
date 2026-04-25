@@ -1,10 +1,20 @@
 ---
 name: bws-cli
-description: 環境変数・シークレット管理の総合ガイド。Bitwarden Secrets Manager CLI（bws）を中心に、ローカル開発・CI/CD・本番環境でのシークレットの安全な取り扱いを定義する。.envファイルへの直書きやハードコードよりも bws run による環境変数注入や bws secret get による取得を優先する。本番環境へのシークレット設定時は、各プラットフォームのCLI（vercel env, wrangler secret, aws ssm, gcloud secrets）と bws を組み合わせて使用する。「bws」「secrets manager」「シークレット管理」「bws run」「bws secret」「bws project」「BWS_ACCESS_TOKEN」「環境変数」「APIキー」「トークン管理」「シークレット取得」「.env」「env」「本番シークレット」「CI/CDシークレット」「vercel env」「wrangler secret」「aws ssm」「gcloud secrets」などの話題が会話に出てきた場合にトリガーする。既存の bitwarden-cli スキル（bw コマンド）とは別ツール。
+description: 【DEPRECATED】Bitwarden Secrets Manager CLI（bws）の参照用ガイド。**新規プロジェクトでは `infisical-cli` skill を使うこと**。本 skill は既存 bws プロジェクトを触る必要がある場面（旧データの確認 / プロジェクト退役処理 / Infisical 移行作業のソース側参照）に限ってトリガーする。「bws」「BWS_ACCESS_TOKEN」「bws run」「bws secret」「bws project」など bws 固有のコマンドや「bws から Infisical への移行」が話題に出た場合のみ発動する。汎用のシークレット管理・環境変数・本番シークレット注入の話題は `infisical-cli` skill に任せる。
 allowed-tools: Bash, Read
 ---
 
-# 環境変数・シークレット管理ガイド
+# 【DEPRECATED】環境変数・シークレット管理ガイド (bws)
+
+> **⚠️ 移行済み**: 本リポジトリは 2026 年に `bws`（Bitwarden Secrets Manager）から Infisical Cloud へ全面移行した。
+> **新規プロジェクトでは [`infisical-cli` skill](../infisical-cli/SKILL.md) を使うこと**。
+>
+> bws-cli skill は次の用途のみで残している:
+> - 既存 bws プロジェクトの参照（移行が完了していないプロジェクト）
+> - Infisical 移行スクリプト（`claude/skills/infisical-cli/scripts/import-from-bws.py`）の実行時にソース側の確認が必要な場面
+> - bws プロジェクトを「DEPRECATED-」プレフィックス等で退役させる作業
+>
+> **新しいシークレットを bws に追加しないこと**。Infisical 側に直接追加する。
 
 シークレット（APIキーなど）の安全な取り扱い方を定義するスキル。
 ローカル開発では **Bitwarden Secrets Manager CLI（`bws`）** を使い、本番環境では**各プラットフォームのシークレットストア**を使う。

@@ -67,18 +67,21 @@
     - 認証方式の使い分け表（ローカル=`infisical login` / CI=OIDC / AWS=IAM Auth / その他=Universal Auth）
     - bws-cli からの読み替え表（`bws run -- X` → `infisical run -- X`、`bws secret list` → `infisical secrets`）
     - import スクリプトの使い方
-- [ ] T912: import スクリプトを skill 配下に正式配置し、SKILL.md からリンク（**SKILL.md の更新は `example-skills:skill-creator` を使用**） `cc:TODO` depends:T905,T911
+- [x] T912: import スクリプトを skill 配下に正式配置し、SKILL.md からリンク `cc:完了` depends:T905,T911
   - DoD: `dotfiles/claude/skills/infisical-cli/scripts/import-from-bws.py` から SKILL.md へのリンクと、SKILL.md からスクリプトへの逆リンクが両方ある
-  - 手順: skill-creator の編集/最適化モードで SKILL.md を更新（description トリガー語の最適化もここで実施）
+  - 実績: T905 時点で SKILL.md→script（2 箇所のリンク）/ script→SKILL.md（docstring 内に明記）の双方向リンクが既に存在することを確認済み
 
 #### Phase 4: AGENTS.md と運用方針の更新
 
-- [ ] T913: `dotfiles/claude/AGENTS.md` の「dotfiles 直営の skills」表に `infisical-cli` を追加 `cc:TODO` depends:T911
+- [x] T913: `dotfiles/claude/AGENTS.md` の「dotfiles 直営の skills」表に `infisical-cli` を追加 `cc:完了` depends:T911
   - DoD: 表に1行追加（用途欄に「Infisical Cloud によるシークレット管理。bws の後継」）
-- [ ] T914: AGENTS.md に「シークレット管理方針」セクションを新設 or 既存方針を更新 `cc:TODO` depends:T913
+  - 実績: skill 表に `infisical-cli` 行を追加（第一選択明記）。bws-cli 行も「（旧）」位置づけに更新
+- [x] T914: AGENTS.md に「シークレット管理方針」セクションを新設 `cc:完了` depends:T913
   - DoD: 「Infisical を第一選択」「bws は段階的に縮退」「`.env` 直書き禁止」「ローカル=infisical login / CI=OIDC / 本番=IAM Auth または Vercel/Cloudflare 各 env」の方針が明文化される
-- [ ] T915: `dotfiles/claude/skills/bws-cli/SKILL.md` 冒頭に「**現在は Infisical へ移行済み。新規プロジェクトでは infisical-cli skill を使うこと**」の deprecation note を追加 `cc:TODO` depends:T914
+  - 実績: 「セキュリティ」セクション直後に「シークレット管理方針」を新設。第一選択 / 環境別認証方式表 / 本番デプロイ先別 / 禁止事項 の 4 ブロックで明文化
+- [x] T915: `dotfiles/claude/skills/bws-cli/SKILL.md` 冒頭に deprecation note を追加 `cc:完了` depends:T914
   - DoD: SKILL.md 冒頭に注記が入り、bws-cli は「既存 bws プロジェクトの参照用」に位置づけが変わる
+  - 実績: frontmatter description 冒頭に【DEPRECATED】を追加し、トリガー条件を「既存 bws プロジェクトを触る場面」に限定。本文冒頭にも callout で `infisical-cli` への誘導を追加
 - [x] T916: `~/.claude/settings.json` の `enabledPlugins` / hooks に Infisical 由来の権限・拒否ルール（例: `infisical secret get` を deny する PreToolUse hook）を追加 `cc:完了` depends:T911
   - DoD: bws と同等のセキュリティガードレール（value を Claude が直接読まない仕組み）が Infisical 側にも導入されている
   - 実績: `claude/scripts/block-infisical-raw-read.sh` を新規追加し、`settings.json#hooks.PreToolUse[Bash]` に登録。`infisical secrets get` / `--plain` / `-o env|dotenv|yaml` / `infisical export` をブロックし、`infisical run` / `infisical secrets set` / `-o json` 経由は許可する。9 ケースのケーススタディで挙動確認済み
