@@ -83,6 +83,7 @@ codex/sqlite/
 codex/ambient-suggestions/
 codex/generated_images/
 codex/vendor_imports/
+codex/config.toml
 
 # 外部ツール自動生成
 .agent/
